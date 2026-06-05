@@ -1,160 +1,210 @@
-# JMWL World Cup · AI 世界杯预测市场分析站
+# World Cup Prediction Market Console
 
-> 🌐 **线上地址：** https://pitchodds.niuniu5658.workers.dev  
-> 💬 **Telegram 社群：** https://t.me/+fcXADOedJYE2OTNl
+2026 世界杯预测市场分析站。项目聚合 Polymarket 世界杯相关盘口，结合本地 Elo/教练/近期状态/球员池模型和可配置 AI Provider，生成比赛预测、市场差值和每日赛前推送。
 
----
+> Fork 说明：本仓库基于上游项目二次开发，已移除原作者个人线上地址、社群和品牌化入口。保留并扩展原项目的世界杯赛程、球队、球员、Polymarket 数据接入和 AI 分析思路；数据源与第三方 API 见文末引用说明。
 
-## 项目简介
+## 当前能力
 
-2026 FIFA 世界杯于 **6 月 11 日**（美/加/墨三国联合）开幕。本站聚合 **Polymarket 实时盘口**，结合 **MiniMax AI 独立定价**与自研 **Elo + 教练 + 状态** 多因子模型，帮助用户：
-
-- 🔥 扫描市场热度，找到 **成交量异动** 的盘口
-- 🤖 对照 **AI 独立概率 vs 市场隐含概率**，发现定价偏差（value bet 信号）
-- ⚡ 查看 **跨平台价差雷达**（Polymarket 实时价 vs 示例对照）
-- ⚽ 浏览 **104 场赛程**，每场附带 AI 胜率分析卡、比分预测、H2H 历史
-- 🌍 查看 **48 支球队** 详情：主教练履历、近一年战绩、Elo 调整因子
-- ⭐ 查看 **1255 名球员**：六维打法雷达、评分、赛事数据
-
----
-
-## 核心功能
-
-| 模块 | 功能描述 |
-|------|----------|
-| **首页 · 市场扫描** | Polymarket 实时盘口热度榜、AI 定价 vs 市场对照、跨平台价差雷达、模型夺冠概率 Top 8 |
-| **赛程时间线** | 104 场按日分组，倒计时、场馆、模型胜率条，支持扫描索引快速跳转 |
-| **比赛详情** | AI 战术分析卡（MiniMax，对市场盲测）+ 量化模型胜率 + 泊松比分预测 + H2H 交锋 |
-| **球队中心** | 48 支球队分组总览，详情含主教练战绩、近一年比赛、Elo 调整因子 |
-| **球员中心** | Watchlist 排行 + 六维雷达图 + 打法标签 + 赛事数据（进球/助攻/xG） |
-| **LIVE 跑马灯** | 顶栏实时滚动 Polymarket 夺冠概率（含国旗，鼠标悬停暂停） |
-| **TG 社群入口** | 每日 AI 扫盘信号同步，页脚直接加入 |
-
----
+| 模块 | 说明 |
+| --- | --- |
+| 市场扫描 | 聚合 Polymarket 世界杯冠军、金靴等事件，展示隐含概率、成交量、流动性、conditionId 和 CLOB token |
+| 比赛预测 | 104 场赛程，按 Elo、教练胜率、近期状态和球员评分生成胜平负、公平赔率和比分预测 |
+| 单场盘口 | 比赛页优先匹配 Polymarket 真实主胜/平局/客胜市场；找不到时退回冠军盘热度代理 |
+| CLOB 数据 | 提供 token 级 orderbook、spread、midpoint、price history API |
+| AI 分析 | 后台可配置 MiniMax 国内版、小米 MiMo、OpenAI-compatible 网关 |
+| 用户系统 | 支持注册/登录；第一个注册用户自动成为管理员 |
+| 个人推送 | 每个用户可配置独立 Telegram Bot、Telegram Chat ID、方糖 Server 酱 SendKey |
+| 每日简报 | VPS cron 调用 `/api/cron/daily-brief`，按用户时区在比赛日前一天推送次日预测 |
+| 管理后台 | `/dashboard`、`/settings`、`/admin/ai` |
 
 ## 技术栈
 
-| 层 | 技术 |
-|----|------|
-| **框架** | Next.js 15 (App Router) + React 19 + TypeScript |
-| **样式** | Tailwind CSS 3 · 自定义「潮牌 Hype」设计系统（Anton 冲击字、霓虹辉光、脉冲动效） |
-| **AI** | MiniMax（中国节点）`MiniMax-Text-01` · 对市场盲测独立定价 · 30 分钟内存缓存 |
-| **数据** | Polymarket Gamma API（公开免 key，实时）· 自生成 48 队 / 104 场 / 1255 球员数据集 |
-| **模型** | Elo + 教练胜率 + 近期状态 + 阵容评分多因子调整 · Poisson 比分矩阵 |
-| **部署** | Cloudflare Workers（OpenNext 适配）· 全球 300+ 边缘节点 · 359 页静态预渲染 |
+- Next.js 15 App Router + React 19 + TypeScript
+- Tailwind CSS
+- SQLite + `better-sqlite3`
+- Cookie session + `scrypt` 密码哈希
+- Polymarket Gamma API + CLOB public market data
+- Telegram Bot API、方糖 Server 酱 Turbo
 
----
-
-## 快速开始
+## 本地开发
 
 ```bash
-# 1. 安装依赖
+corepack enable
+corepack prepare pnpm@10.24.0 --activate
 pnpm install
-
-# 2. 本地开发（需 .env.local 配置 MiniMax key）
-pnpm dev          # http://localhost:3000
-
-# 3. 刷新世界杯数据（赛程/球队/球员）
-pnpm data:pull
-
-# 4. 生产预览
-pnpm build && pnpm start
+cp .env.example .env.local
+pnpm dev
 ```
 
-### 环境变量（`.env.local`，不进版本库）
+首次打开：
+
+1. 访问 `http://localhost:3000/register`
+2. 注册第一个账号，它会自动成为管理员
+3. 访问 `/admin/ai` 配置 AI Provider
+4. 访问 `/settings` 配置个人 Telegram / 方糖推送
+
+## 环境变量
+
+见 `.env.example`。生产环境至少设置：
 
 ```env
-MINIMAX_API_KEY=your_key_here
-MINIMAX_BASE_URL=https://api.minimax.chat
-MINIMAX_MODEL=MiniMax-Text-01
+APP_SECRET=change_this_to_a_long_random_string
+DATA_DIR=/var/lib/worldcup-predict
+CRON_SECRET=change_this_cron_secret
 ```
 
----
+`APP_SECRET` 用于加密数据库中的 API Key、Telegram Token 和 Server 酱 SendKey。生产环境部署后不要频繁更换，否则旧密文无法解密。
+
+## AI Provider
+
+后台路径：`/admin/ai`
+
+内置三类 Provider：
+
+- `MiniMax 国内版`：调用 `/v1/text/chatcompletion_v2`，默认 `https://api.minimax.chat`
+- `小米 MiMo`：按 OpenAI-compatible 协议调用 `/chat/completions`，默认模型 `mimo-v2.5-pro`
+- `OpenAI 兼容接口`：用于接入通义、Moonshot、DeepSeek、自建 New API 等兼容网关
+
+启用且设为默认的 Provider 会被 `lib/ai.ts` 使用。若后台没有可用配置，会回退到 `MINIMAX_API_KEY` 等环境变量。
+
+## 推送配置
+
+用户路径：`/settings`
+
+Telegram：
+
+- 从 BotFather 获取 Bot Token
+- 用户或群给 Bot 发一条消息后，用 Telegram `getUpdates` 查询 Chat ID
+
+方糖 / Server 酱：
+
+- 在 Server 酱获取 SendKey
+- 系统向 `https://sctapi.ftqq.com/{SENDKEY}.send` 发送 `title` 和 `desp`
+
+## 每日赛前推送
+
+接口：
+
+```bash
+curl -H "Authorization: Bearer $CRON_SECRET" \
+  http://127.0.0.1:3000/api/cron/daily-brief
+```
+
+建议 VPS 上每小时执行一次。系统会按每个用户配置的 `push_timezone` 和 `push_hour` 判断是否需要发送。如果明天没有比赛，默认不推送；可设置 `PUSH_EMPTY_DAYS=1` 改为也推送空日提醒。
+
+每日简报会优先使用 Polymarket 单场盘口（主胜/平局/客胜），并输出模型概率、市场价格、edge、spread；暂未匹配到单场盘口时才退回世界杯冠军盘作为市场代理。
+
+示例 crontab：
+
+```cron
+0 * * * * curl -fsS -H "Authorization: Bearer your_cron_secret" http://127.0.0.1:3000/api/cron/daily-brief >/dev/null
+```
+
+## VPS 部署
+
+推荐 Ubuntu 22.04/24.04，Node.js 22 或 24，使用 systemd 常驻。
+
+```bash
+git clone https://github.com/w00c00/worldcup-polymarket-win.git
+cd worldcup-polymarket-win
+corepack enable
+corepack prepare pnpm@10.24.0 --activate
+pnpm install --frozen-lockfile
+cp .env.example .env.production
+mkdir -p /var/lib/worldcup-predict
+pnpm build
+pnpm start
+```
+
+systemd 示例：
+
+```ini
+[Unit]
+Description=World Cup Prediction Market
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/worldcup-polymarket-win
+EnvironmentFile=/opt/worldcup-polymarket-win/.env.production
+Environment=NODE_ENV=production
+Environment=PORT=3000
+ExecStart=/usr/bin/pnpm start
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+如需 Nginx 反代：
+
+```nginx
+location / {
+  proxy_pass http://127.0.0.1:3000;
+  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header X-Forwarded-Proto $scheme;
+}
+```
 
 ## 项目结构
 
-```
-├── app/
-│   ├── page.tsx                 # 首页：Hero / AI对照 / 热度榜 / 价差雷达 / 夺冠模型
-│   ├── timeline/page.tsx        # 赛程时间线（按日 + 扫描索引）
-│   ├── match/[id]/page.tsx      # 比赛详情：AI分析卡 / 比分预测 / H2H / 球员
-│   ├── team/[code]/page.tsx     # 球队详情：教练 / 战绩 / 赛程 / 阵容
-│   ├── teams/page.tsx           # 分组总览（48队12组）
-│   ├── player/[id]/page.tsx     # 球员详情：雷达图 / 数据 / 打法标签
-│   └── players/page.tsx         # 球员 Watchlist 排行榜
-│
-├── lib/
-│   ├── ai.ts                    # MiniMax 客户端 · 盲测定价 · TTL 缓存 · 兜底回退
-│   ├── model.ts                 # Elo 多因子模型 · 胜率 / 比分 / 夺冠概率
-│   ├── polymarket.ts            # Polymarket Gamma API · 热度算法 · 价差雷达
-│   ├── worldcup.ts              # 球队 / 赛程 / H2H 数据入口
-│   ├── players.ts               # 球员数据入口
-│   ├── team-insights.ts         # 主教练档案 · 近期战绩 · 状态因子
-│   ├── trade-recommendation.ts  # 盘口推荐聚合
-│   └── generated/
-│       ├── worldcup-data.ts     # 自动生成：48队 / 104场
-│       └── player-data.ts       # 自动生成：1255名球员
-│
-├── components/
-│   ├── Nav.tsx                  # 导航栏（IMPACT 字体 · 电光青高亮）
-│   ├── Ticker.tsx               # LIVE 赔率跑马灯（Polymarket 实时）
-│   ├── MarketCard.tsx           # 盘口热度卡（扫光 · 火焰脉冲）
-│   ├── Radar.tsx                # 纯 SVG 六维雷达图
-│   ├── Countdown.tsx            # 实时倒计时
-│   ├── Motion.tsx               # CountUp 数字滚动 · Reveal 滚动揭示
-│   ├── ScannerConsole.tsx       # 扫描台 UI 组件
-│   └── ui.tsx                   # 原子组件（Flag / ProbBar / SectionTitle / Stat）
-│
-├── scripts/
-│   ├── pull-worldcup-data.mjs   # 拉取公开数据生成 lib/generated/
-│   └── clean-next-cache.mjs     # 清理 .next 缓存
-│
-├── wrangler.jsonc               # Cloudflare Workers 配置
-├── open-next.config.ts          # OpenNext Cloudflare 适配器配置
-└── tailwind.config.ts           # 潮牌 Hype 设计系统 token
+```text
+app/
+  api/cron/daily-brief/route.ts  # VPS cron 推送入口
+  api/matches/[id]/markets/route.ts
+                                  # 按比赛 ID 返回真实 Polymarket 单场盘口
+  api/polymarket/orderbook/route.ts
+                                  # CLOB token orderbook/spread/midpoint
+  api/polymarket/price-history/route.ts
+                                  # CLOB token 价格历史
+  admin/ai/page.tsx              # AI Provider 后台
+  dashboard/page.tsx             # 用户控制台
+  settings/page.tsx              # 个人推送配置
+lib/
+  ai-providers.ts                # MiniMax / MiMo / OpenAI-compatible 适配层
+  auth.ts                        # 注册、登录、Cookie session
+  daily-brief.ts                 # 次日比赛简报生成与推送
+  db.ts                          # SQLite schema 与数据访问
+  notifications.ts               # Telegram / Server 酱发送
+  polymarket.ts                  # Polymarket Gamma + CLOB 数据接口
 ```
 
----
+## 市场数据接口
 
-## 数据说明
-
-| 数据 | 来源 | 状态 |
-|------|------|------|
-| Polymarket 盘口 / 赔率 / 成交量 | Gamma API（公开，无需 key） | ✅ **实时真实** |
-| 球队 / 赛程 | `scripts/pull-worldcup-data.mjs` 生成 | ✅ 48 队 / 104 场 |
-| 球员名单 | 公开球员数据生成 | ✅ 1255 人 |
-| 球员照片 | DiceBear 头像（占位，无授权问题） | ✅ 可替换真实图 |
-| 币安 / OKX 盘口 | 价差板块示例数据 | ⏳ API 成熟后接入 |
-| Kalshi 盘口 | — | ⏳ V2 计划 |
-
-> **热度算法：** `0.45 × 24h成交增速 + 0.30 × log(总量) + 0.15 × 流动性 + 0.10 × 临场权重`
-
----
-
-## 部署到 Cloudflare
+按比赛读取真实 Polymarket 单场市场：
 
 ```bash
-# 一次性完整部署
-rm -rf .next .open-next
-pnpm build
-npx opennextjs-cloudflare build
-npx wrangler deploy
-
-# 上传 MiniMax key（首次）
-echo "your_key" | npx wrangler secret put MINIMAX_API_KEY
+curl http://127.0.0.1:3000/api/matches/m1/markets
 ```
 
-**已部署：** https://pitchodds.niuniu5658.workers.dev  
-**版本：** Next.js 15 + OpenNext 1.19 + Cloudflare Workers · 359 页静态预渲染
+读取某个 YES token 的订单簿：
 
----
+```bash
+curl "http://127.0.0.1:3000/api/polymarket/orderbook?tokenId=TOKEN_ID"
+```
 
-## 路线图
+读取某个 YES token 的价格历史：
 
-- **V1（已上线）** Polymarket 实时盘口 · AI 价值雷达 · 赛程 / 球队 / 球员 · 热血潮牌 UI
-- **V2** 接入 Kalshi 真实多平台价差 · 赔率历史走势图 · 单场盘口聚合
-- **V3** Watchlist + 价格提醒 · 免费预测战绩排行榜 · 多语言支持
+```bash
+curl "http://127.0.0.1:3000/api/polymarket/price-history?tokenId=TOKEN_ID&days=7&interval=1h"
+```
 
----
+## 后续建议
 
-> ⚠️ **免责声明：** 本站仅供信息参考，非投资建议。预测市场存在风险，请遵守所在地区法律法规。AI 分析由 MiniMax 生成，存在不确定性，请独立判断。
+- 增加用户级 watchlist 和价格/edge 阈值提醒
+- 增加模型回测：记录每次 YES/NO/WATCH 信号和后续价格变化
+- 为真实单场盘口增加缓存/快照表，用于后续回测和价格提醒
+
+## 引用与第三方来源
+
+- Polymarket API 文档：<https://docs.polymarket.com/api-reference/introduction>
+- Polymarket Market Data：<https://docs.polymarket.com/market-data/overview>
+- Telegram Bot API：<https://core.telegram.org/bots/api>
+- Server 酱 Turbo：<https://sct.ftqq.com/>
+- MiniMax API：<https://platform.minimax.io/document/Chatcompletion_v2>
+- 赛程/球队生成脚本使用公开 2026 World Cup 数据集与公开 squad 页面，见 `scripts/pull-worldcup-data.mjs`
+
+免责声明：本项目仅供信息分析与技术研究，不构成投资建议。预测市场和推送内容存在不确定性，请自行判断并遵守所在地区法律法规。

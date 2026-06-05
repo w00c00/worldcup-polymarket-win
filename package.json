@@ -16,12 +16,14 @@
     "cf:deploy": "pnpm clean && opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion && opennextjs-cloudflare deploy"
   },
   "dependencies": {
+    "better-sqlite3": "^12.10.0",
     "next": "15.5.19",
     "react": "19.2.7",
     "react-dom": "19.2.7"
   },
   "devDependencies": {
     "@opennextjs/cloudflare": "^1.19.11",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "20.14.0",
     "@types/react": "19.2.16",
     "@types/react-dom": "19.2.3",
@@ -33,6 +35,7 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "better-sqlite3",
       "esbuild",
       "workerd",
       "sharp"

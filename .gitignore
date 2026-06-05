@@ -3,6 +3,8 @@ node_modules
 .open-next
 .wrangler
 .env*.local
+.env.production
+.data
 .DS_Store
 tsconfig.tsbuildinfo
 *.log

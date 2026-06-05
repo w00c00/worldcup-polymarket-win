@@ -9,7 +9,7 @@ import { playersByTeam, playerPhoto } from "@/lib/players";
 import { ProbBar, Flag, SectionTitle, Stat } from "@/components/ui";
 import { Countdown } from "@/components/Countdown";
 import { safeMatch } from "@/lib/ai";
-import { getWorldCupMarkets } from "@/lib/polymarket";
+import { getMatchMarkets, getWorldCupMarkets, type MatchMarketSet, type MatchPolymarket } from "@/lib/polymarket";
 import { formMarks, getTeamInsight } from "@/lib/team-insights";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -33,6 +33,7 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
   const a = teamByCode(m.away)!;
   const base = matchProbabilities(m.home, m.away);
   const analysis = groupStageAnalysis(m.home, m.away, marketByCode);
+  const matchMarkets = await getMatchMarkets(m.home, m.away);
   const p = analysis.adjusted;
   const scores = scoreMatrix(m.home, m.away);
   const h2h = headToHead(m.home, m.away);
@@ -75,7 +76,7 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
             <div className="mono text-[11px] uppercase tracking-[0.26em] text-emerald-300">ai market brief</div>
             <h2 className="mt-1 text-2xl font-black text-white">AI 胜率 / 公平赔率 / Polymarket 对比</h2>
             <p className="mt-1 max-w-3xl text-sm text-slate-400">
-              本场仅分析小组赛胜平负。Polymarket 当前对比项来自世界杯冠军盘，用于衡量双方在市场里的整体热度和低估/高估，不等同于本场单场赔率。
+              本场分析小组赛胜平负。优先匹配 Polymarket 单场三项市场；暂未匹配时才退回世界杯冠军盘作为球队市场热度代理。
             </p>
           </div>
           <span className="rounded-full border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-xs font-bold text-emerald-300">
@@ -94,7 +95,14 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
           <div className="rounded-xl border border-white/10 bg-[#07121b]/80 p-4">
             <div className="mb-3 text-sm font-bold text-white">重点说明内容</div>
             <div className="space-y-2">
-              {analysis.readout.map((line) => (
+              {(matchMarkets
+                ? [
+                    `已匹配 Polymarket 单场事件：${matchMarkets.title}，含主胜/平局/客胜 3 个二元市场。`,
+                    `单场市场总成交 $${abbr(matchMarkets.volume)}，流动性 $${abbr(matchMarkets.liquidity)}。`,
+                    `${h.zh} 模型 ${pct(p.home)}；平局模型 ${pct(p.draw)}；${a.zh} 模型 ${pct(p.away)}。`,
+                  ]
+                : analysis.readout
+              ).map((line) => (
                 <p key={line} className="text-xs leading-relaxed text-slate-300">
                   <span className="mr-2 text-emerald-300">▸</span>{line}
                 </p>
@@ -102,6 +110,8 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
             </div>
           </div>
         </div>
+
+        <RealMatchMarketPanel markets={matchMarkets} model={p} labels={{ home: h.zh, draw: "平局", away: a.zh }} />
       </section>
 
       <section id="ai-why" className="zen-panel scroll-mt-28 rounded-2xl p-5">
@@ -110,7 +120,7 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
             <div className="mono text-[11px] uppercase tracking-[0.26em] text-emerald-300">why this probability</div>
             <h2 className="mt-1 text-2xl font-black text-white">为什么倾向 {winnerName(h, a, p)}</h2>
             <p className="mt-1 max-w-3xl text-sm text-slate-400">
-              这个胜率不是外部盘口，而是 JMWL 的本地模型：先用双方 Elo 算基础胜平负，再用教练胜率、近一年状态和球员池强度调整，最后展示 Polymarket 冠军盘作为市场热度代理。
+              这个胜率不是外部盘口，而是本站本地模型：先用双方 Elo 算基础胜平负，再用教练胜率、近一年状态和球员池强度调整，最后展示 Polymarket 冠军盘作为市场热度代理。
             </p>
           </div>
           <span className="rounded-full border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-xs font-bold text-emerald-300">
@@ -125,8 +135,9 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
             base={base.home}
             adjusted={p.home}
             factors={analysis.factors.home}
-            market={analysis.market.home.marketChampion}
-            edge={analysis.market.home.edge}
+            market={matchMarkets?.markets.home?.price ?? analysis.market.home.marketChampion}
+            edge={matchMarkets?.markets.home ? p.home - matchMarkets.markets.home.price : analysis.market.home.edge}
+            marketLabel={matchMarkets?.markets.home ? "Polymarket 单场主胜盘" : "Polymarket 冠军盘代理"}
           />
           <WhyTeamCard
             label={a.zh}
@@ -134,8 +145,9 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
             base={base.away}
             adjusted={p.away}
             factors={analysis.factors.away}
-            market={analysis.market.away.marketChampion}
-            edge={analysis.market.away.edge}
+            market={matchMarkets?.markets.away?.price ?? analysis.market.away.marketChampion}
+            edge={matchMarkets?.markets.away ? p.away - matchMarkets.markets.away.price : analysis.market.away.edge}
+            marketLabel={matchMarkets?.markets.away ? "Polymarket 单场客胜盘" : "Polymarket 冠军盘代理"}
           />
         </div>
 
@@ -145,7 +157,7 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
             <ReasonStep title="1. 基础实力" body={`Elo 先给出 ${h.zh} ${(base.home * 100).toFixed(1)}%、平 ${(base.draw * 100).toFixed(1)}%、${a.zh} ${(base.away * 100).toFixed(1)}%。`} />
             <ReasonStep title="2. 教练/近况" body="教练胜率、近一年胜平负、进失球差会转成 Elo 修正值。" />
             <ReasonStep title="3. 球员池" body="该队球员评分均值和最高分会影响 squad boost，核心越强越加权。" />
-            <ReasonStep title="4. 市场对照" body="Polymarket 当前只作为冠军盘热度/低估高估代理，不当作本场胜平负盘口。" />
+            <ReasonStep title="4. 市场对照" body={matchMarkets ? "已接入本场 Polymarket 主胜/平局/客胜二元盘口，直接计算模型与市场差值。" : "未匹配到本场盘口时，Polymarket 冠军盘只作为热度/低估高估代理。"} />
           </div>
         </div>
       </section>
@@ -297,6 +309,127 @@ function winnerName(
   return p.home >= p.away ? home.zh : away.zh;
 }
 
+function RealMatchMarketPanel({
+  markets,
+  model,
+  labels,
+}: {
+  markets: MatchMarketSet | null;
+  model: { home: number; draw: number; away: number };
+  labels: { home: string; draw: string; away: string };
+}) {
+  if (!markets) {
+    return (
+      <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.035] p-4">
+        <div className="text-sm font-black text-white">真实单场盘口</div>
+        <p className="mt-1 text-xs leading-relaxed text-slate-400">
+          暂未匹配到 Polymarket 本场三项市场，当前页面会继续用世界杯冠军盘作为市场热度代理。
+        </p>
+      </div>
+    );
+  }
+
+  const rows: Array<{ key: "home" | "draw" | "away"; market?: MatchPolymarket }> = [
+    { key: "home", market: markets.markets.home },
+    { key: "draw", market: markets.markets.draw },
+    { key: "away", market: markets.markets.away },
+  ];
+
+  return (
+    <div className="mt-4 rounded-xl border border-emerald-400/20 bg-[#07121b]/80 p-4">
+      <div className="mb-3 flex flex-wrap items-start justify-between gap-3 border-b border-white/10 pb-3">
+        <div>
+          <div className="mono text-[10px] uppercase tracking-[0.24em] text-emerald-300">real polymarket match markets</div>
+          <h3 className="mt-1 text-lg font-black text-white">{markets.title}</h3>
+          <p className="mt-1 text-xs text-slate-500">
+            单场总成交 ${abbr(markets.volume)} · 流动性 ${abbr(markets.liquidity)}
+          </p>
+        </div>
+        <Link href={markets.url} target="_blank" className="rounded-lg border border-emerald-400/30 px-3 py-2 text-xs font-black text-emerald-300 transition hover:bg-emerald-400/10">
+          打开 Polymarket
+        </Link>
+      </div>
+
+      <div className="grid gap-2">
+        {rows.map(({ key, market }) => (
+          <MatchMarketRow key={key} label={labels[key]} model={model[key]} market={market} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MatchMarketRow({
+  label,
+  model,
+  market,
+}: {
+  label: string;
+  model: number;
+  market?: MatchPolymarket;
+}) {
+  if (!market) {
+    return (
+      <div className="rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2 text-sm text-slate-500">
+        {label}：暂无匹配盘口
+      </div>
+    );
+  }
+  const edge = model - market.price;
+  const tokenId = market.tokenIds.yes;
+  return (
+    <div className="rounded-lg border border-white/10 bg-white/[0.035] p-3">
+      <div className="grid gap-3 md:grid-cols-[1fr_5rem_5rem_6rem_7rem] md:items-center">
+        <div className="min-w-0">
+          <Link href={market.url} target="_blank" className="truncate text-sm font-black text-white hover:text-emerald-300">
+            {label}
+          </Link>
+          <div className="mt-0.5 truncate text-[11px] text-slate-500">{market.question}</div>
+        </div>
+        <MetricText label="市场" value={pct(market.price)} accent />
+        <MetricText label="模型" value={pct(model)} />
+        <MetricText label="Edge" value={signedPct(edge)} tone={edge >= 0 ? "up" : "down"} />
+        <MetricText label="Bid / Ask" value={`${priceText(market.bestBid)} / ${priceText(market.bestAsk)}`} />
+      </div>
+      <div className="mt-3 flex flex-wrap gap-2 text-[11px] text-slate-500">
+        <span>spread {priceText(market.spread)}</span>
+        <span>mid {priceText(market.midpoint)}</span>
+        <span>成交 ${abbr(market.volume)}</span>
+        {tokenId && (
+          <>
+            <Link href={`/api/polymarket/orderbook?tokenId=${tokenId}`} target="_blank" className="text-emerald-300 hover:text-emerald-200">
+              orderbook API
+            </Link>
+            <Link href={`/api/polymarket/price-history?tokenId=${tokenId}&days=7&interval=1h`} target="_blank" className="text-emerald-300 hover:text-emerald-200">
+              history API
+            </Link>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MetricText({
+  label,
+  value,
+  accent,
+  tone,
+}: {
+  label: string;
+  value: string;
+  accent?: boolean;
+  tone?: "up" | "down";
+}) {
+  const color = tone === "up" ? "text-emerald-300" : tone === "down" ? "text-orange-300" : accent ? "text-emerald-300" : "text-slate-200";
+  return (
+    <div>
+      <div className="mono text-[9px] uppercase tracking-wider text-slate-500">{label}</div>
+      <div className={`mono text-sm font-black ${color}`}>{value}</div>
+    </div>
+  );
+}
+
 function WhyTeamCard({
   label,
   teamCode,
@@ -305,6 +438,7 @@ function WhyTeamCard({
   factors,
   market,
   edge,
+  marketLabel = "Polymarket 冠军盘代理",
 }: {
   label: string;
   teamCode: string;
@@ -313,6 +447,7 @@ function WhyTeamCard({
   factors: { elo: number; coach: number; recent: number; squad: number; total: number };
   market?: number;
   edge?: number;
+  marketLabel?: string;
 }) {
   const delta = adjusted - base;
   return (
@@ -333,7 +468,7 @@ function WhyTeamCard({
         <MiniStat label="总修正 Elo" value={`${factors.total >= 0 ? "+" : ""}${factors.total}`} accent={factors.total >= 0} />
       </div>
       <div className="mt-3 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2">
-        <div className="text-[10px] uppercase tracking-widest text-slate-500">Polymarket 冠军盘代理</div>
+        <div className="text-[10px] uppercase tracking-widest text-slate-500">{marketLabel}</div>
         <div className="mt-1 flex items-center justify-between gap-3">
           <span className="mono text-sm font-bold text-slate-200">{market === undefined ? "暂无匹配" : `${(market * 100).toFixed(1)}%`}</span>
           <span className={`mono text-xs font-bold ${edge !== undefined && edge >= 0 ? "text-emerald-300" : "text-violet-200"}`}>
@@ -522,4 +657,23 @@ function MiniStat({ label, value, accent }: { label: string; value: string; acce
       <div className={`mono text-sm font-bold ${accent ? "text-emerald-300" : "text-slate-200"}`}>{value}</div>
     </div>
   );
+}
+
+function pct(value: number): string {
+  return `${(value * 100).toFixed(1)}%`;
+}
+
+function signedPct(value: number): string {
+  return `${value >= 0 ? "+" : ""}${(value * 100).toFixed(1)}%`;
+}
+
+function priceText(value?: number): string {
+  return value === undefined ? "--" : value.toFixed(3).replace(/0+$/, "").replace(/\.$/, "");
+}
+
+function abbr(n: number): string {
+  if (n >= 1e9) return (n / 1e9).toFixed(1) + "B";
+  if (n >= 1e6) return (n / 1e6).toFixed(1) + "M";
+  if (n >= 1e3) return (n / 1e3).toFixed(1) + "K";
+  return String(Math.round(n));
 }

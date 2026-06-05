@@ -7,9 +7,9 @@ import { championProbabilities } from "@/lib/model";
 import { TEAMS } from "@/lib/worldcup";
 
 export const metadata: Metadata = {
-  title: "JMWL World Cup · AI 世界杯预测市场",
+  title: "World Cup Console · AI 世界杯预测市场",
   description:
-    "扫描 Polymarket 世界杯预测盘口，以 AI 独立定价、错价雷达和胜率模型发现市场分歧。",
+    "扫描 Polymarket 世界杯预测盘口，以 AI Provider、推送后台和胜率模型发现市场分歧。",
 };
 
 export const revalidate = 120;
@@ -55,27 +55,22 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_50%,rgba(39,245,138,0.16),transparent_38%),radial-gradient(circle_at_88%_45%,rgba(34,211,238,0.12),transparent_34%)]" />
                 <div className="relative">
                   <div className="text-[10px] font-black uppercase tracking-[0.32em] text-emerald-300">
-                    Telegram community
+                    prediction console
                   </div>
                   <div className="mt-2 text-2xl font-black text-white md:text-3xl">
-                    加入 TG 社群，一起盯世界杯预测市场
+                    世界杯预测市场后台
                   </div>
                   <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-400">
-                    每天同步 AI 扫描信号、YES / NO 判断逻辑和盘口变化，视频版尾直接扫码或点击进群。
+                    支持用户独立配置 Telegram 与方糖推送，管理员可维护 MiniMax、MiMo 和 OpenAI-compatible AI 接口。
                   </p>
                 </div>
 
                 <div className="relative mt-5 flex flex-col gap-2 md:mt-0 md:items-end">
-                  <a
-                    href="https://t.me/+fcXADOedJYE2OTNl"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center justify-center rounded-xl border border-emerald-300/35 bg-emerald-300 px-5 py-3 text-sm font-black text-ink-950 shadow-[0_0_34px_rgba(39,245,138,0.28)] transition hover:brightness-110"
-                  >
-                    加入 Telegram 社群
+                  <a href="/dashboard" className="inline-flex items-center justify-center rounded-xl border border-emerald-300/35 bg-emerald-300 px-5 py-3 text-sm font-black text-ink-950 shadow-[0_0_34px_rgba(39,245,138,0.28)] transition hover:brightness-110">
+                    打开控制台
                   </a>
                   <div className="rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-xs text-slate-400">
-                    t.me/+fcXADOedJYE2OTNl
+                    /dashboard · /settings · /admin/ai
                   </div>
                 </div>
               </div>

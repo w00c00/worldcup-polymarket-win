@@ -53,7 +53,7 @@ export default function PlayersPage() {
               球员 <span className="zen-text">Watchlist Rank</span>
             </h1>
             <p className="mt-2 max-w-2xl text-sm text-slate-400">
-              按 JMWL 看好指数排序：球员评分、所在队夺冠概率、位置影响和六维能力峰值共同加权，排出最值得关注的球员。
+              按看好指数排序：球员评分、所在队夺冠概率、位置影响和六维能力峰值共同加权，排出最值得关注的球员。
             </p>
           </div>
           <div className="grid grid-cols-3 gap-2">

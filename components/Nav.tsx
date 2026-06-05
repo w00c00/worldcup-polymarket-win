@@ -7,6 +7,7 @@ const links = [
   { href: "/timeline", label: "赛程时间线" },
   { href: "/teams", label: "球队" },
   { href: "/players", label: "球员" },
+  { href: "/dashboard", label: "控制台" },
 ];
 
 export function Nav() {
@@ -19,7 +20,7 @@ export function Nav() {
             AI
           </span>
           <span className="text-xl font-black tracking-normal text-white">
-            <span className="zen-text">JMWL</span> World Cup
+            <span className="zen-text">World Cup</span> Console
           </span>
           <span className="hidden rounded border border-electric/30 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-electric sm:inline">
             WC 2026

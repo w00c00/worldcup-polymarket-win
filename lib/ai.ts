@@ -2,37 +2,12 @@
 // Principle: the AI prices events BLIND to any market/Polymarket price, so the
 // AI-vs-market comparison stays meaningful. Server-side only; results cached.
 import { TEAMS, teamByCode } from "./worldcup";
+import { chatWithActiveProvider } from "./ai-providers";
 
 type Msg = { role: "system" | "user" | "assistant"; content: string };
 
-// Read env at call time (Cloudflare Workers only populate env per-request).
-function cfg() {
-  return {
-    BASE: process.env.MINIMAX_BASE_URL || "https://api.minimax.chat",
-    MODEL: process.env.MINIMAX_MODEL || "MiniMax-Text-01",
-    KEY: process.env.MINIMAX_API_KEY,
-  };
-}
-
 async function chat(messages: Msg[], maxTokens = 1400): Promise<string> {
-  const { BASE, MODEL, KEY } = cfg();
-  if (!KEY) throw new Error("MINIMAX_API_KEY missing");
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 30000);
-  try {
-    const r = await fetch(`${BASE}/v1/text/chatcompletion_v2`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ model: MODEL, messages, max_tokens: maxTokens, temperature: 0.3 }),
-      signal: ctrl.signal,
-      cache: "no-store",
-    });
-    if (!r.ok) throw new Error(`MiniMax HTTP ${r.status}`);
-    const j = await r.json();
-    return j?.choices?.[0]?.message?.content ?? "";
-  } finally {
-    clearTimeout(timer);
-  }
+  return chatWithActiveProvider(messages, { maxTokens, temperature: 0.3 });
 }
 
 function extractJSON<T>(s: string): T {
