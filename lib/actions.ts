@@ -5,6 +5,7 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { redirect } from "next/navigation";
 import { AuthError, createUser, requireAdmin, requireUser, signIn, signOut } from "./auth";
+import { notifyAdminsOfNewRegistration } from "./admin-notifications";
 import { getDb, ensureNotificationSettings } from "./db";
 import { encryptSecret } from "./secrets";
 import { chatWithActiveProvider } from "./ai-providers";
@@ -47,6 +48,12 @@ export async function registerAction(formData: FormData) {
     if (user.status === "approved") {
       await signIn(email, password);
       target = "/dashboard";
+    } else if (user.status === "pending") {
+      try {
+        await notifyAdminsOfNewRegistration(user);
+      } catch (notifyError) {
+        console.error("Registration admin notification failed:", notifyError);
+      }
     }
   } catch (error) {
     target = `/register?error=${authErrorCode(error)}`;

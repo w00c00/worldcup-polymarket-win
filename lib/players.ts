@@ -1,6 +1,7 @@
 // Player pool generated from public World Cup 2026 squad pages. Player photos
 // prefer static cached Wikimedia images and fall back to local SVG caricatures.
 import { GENERATED_PLAYERS } from "./generated/player-data";
+import { chinesePlayerName } from "./player-names-zh";
 import { cachedPlayerPhoto } from "./player-photo-cache";
 
 export type Player = {
@@ -20,7 +21,10 @@ export type Player = {
   stats: { apps: number; goals: number; assists: number; xg: number };
 };
 
-export const PLAYERS: Player[] = GENERATED_PLAYERS;
+export const PLAYERS: Player[] = GENERATED_PLAYERS.map((player) => ({
+  ...player,
+  zh: chinesePlayerName(player),
+}));
 
 export function playerById(id: string): Player | undefined {
   return PLAYERS.find((p) => p.id === id);
