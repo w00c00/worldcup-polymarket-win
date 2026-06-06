@@ -10,6 +10,7 @@ export type AiMessage = {
 type ChatOptions = {
   maxTokens?: number;
   temperature?: number;
+  timeoutMs?: number;
 };
 
 export function listAiProviders(): AiProvider[] {
@@ -56,7 +57,7 @@ export async function chatWithProvider(provider: AiProvider, messages: AiMessage
 
 async function minimaxChat(provider: AiProvider, key: string, messages: AiMessage[], options: ChatOptions): Promise<string> {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 30000);
+  const timer = setTimeout(() => controller.abort(), options.timeoutMs ?? 30000);
   try {
     const response = await fetch(`${provider.base_url.replace(/\/$/, "")}/v1/text/chatcompletion_v2`, {
       method: "POST",
@@ -80,7 +81,7 @@ async function minimaxChat(provider: AiProvider, key: string, messages: AiMessag
 
 async function openAiCompatibleChat(provider: AiProvider, key: string, messages: AiMessage[], options: ChatOptions): Promise<string> {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 30000);
+  const timer = setTimeout(() => controller.abort(), options.timeoutMs ?? 30000);
   try {
     const base = provider.base_url.replace(/\/$/, "");
     const response = await fetch(`${base}/chat/completions`, {

@@ -4,6 +4,12 @@ import { TEAMS, teamByCode } from "./worldcup";
 
 const GAMMA = "https://gamma-api.polymarket.com";
 const CLOB = "https://clob.polymarket.com";
+const MARKET_CACHE_TTL = 2 * 60 * 1000;
+const MARKET_STALE_TTL = 15 * 60 * 1000;
+const MARKET_FETCH_TIMEOUT = 4500;
+
+let worldCupMarketsCache: { t: number; markets: Market[] } | null = null;
+let worldCupMarketsPending: Promise<Market[]> | null = null;
 
 export type Outcome = {
   label: string;
@@ -114,13 +120,20 @@ const WC_DISCOVERY_QUERIES = [
   "World Cup top scorer",
 ];
 
-async function getJSON(url: string) {
-  const res = await fetch(url, {
-    headers: { accept: "application/json" },
-    next: { revalidate: 120 }, // cache 2 min
-  });
-  if (!res.ok) throw new Error(`Polymarket ${res.status}`);
-  return res.json();
+async function getJSON(url: string, timeoutMs = MARKET_FETCH_TIMEOUT) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, {
+      headers: { accept: "application/json" },
+      next: { revalidate: 120 }, // cache 2 min
+      signal: controller.signal,
+    });
+    if (!res.ok) throw new Error(`Polymarket ${res.status}`);
+    return res.json();
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 function parseArr(s: unknown): string[] {
@@ -231,6 +244,33 @@ function marketCategory(ev: any): string {
 }
 
 export async function getWorldCupMarkets(): Promise<Market[]> {
+  const now = Date.now();
+  if (worldCupMarketsCache && now - worldCupMarketsCache.t < MARKET_CACHE_TTL) {
+    return worldCupMarketsCache.markets;
+  }
+  if (worldCupMarketsPending) {
+    if (worldCupMarketsCache && now - worldCupMarketsCache.t < MARKET_STALE_TTL) return worldCupMarketsCache.markets;
+    return worldCupMarketsPending;
+  }
+
+  worldCupMarketsPending = fetchWorldCupMarkets()
+    .then((markets) => {
+      worldCupMarketsCache = { t: Date.now(), markets };
+      return markets;
+    })
+    .catch((error) => {
+      if (worldCupMarketsCache) return worldCupMarketsCache.markets;
+      throw error;
+    })
+    .finally(() => {
+      worldCupMarketsPending = null;
+    });
+
+  if (worldCupMarketsCache && now - worldCupMarketsCache.t < MARKET_STALE_TTL) return worldCupMarketsCache.markets;
+  return worldCupMarketsPending;
+}
+
+async function fetchWorldCupMarkets(): Promise<Market[]> {
   const out: Market[] = [];
   const seen = new Set<string>();
 
@@ -253,15 +293,17 @@ export async function getWorldCupMarkets(): Promise<Market[]> {
     }),
   );
 
-  for (const query of WC_DISCOVERY_QUERIES) {
-    try {
-      const data = await getJSON(`${GAMMA}/public-search?q=${encodeURIComponent(query)}&limit=30`);
-      const events = Array.isArray(data?.events) ? data.events : [];
-      for (const ev of events) addEvent(ev);
-    } catch {
-      /* ignore discovery failures */
-    }
-  }
+  await Promise.all(
+    WC_DISCOVERY_QUERIES.map(async (query) => {
+      try {
+        const data = await getJSON(`${GAMMA}/public-search?q=${encodeURIComponent(query)}&limit=30`);
+        const events = Array.isArray(data?.events) ? data.events : [];
+        for (const ev of events) addEvent(ev);
+      } catch {
+        /* ignore discovery failures */
+      }
+    }),
+  );
 
   // Fallback discovery if curated slugs missed: search soccer tag.
   if (out.length === 0) {

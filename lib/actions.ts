@@ -197,7 +197,7 @@ export async function testAiProviderAction() {
         { role: "system", content: "你是一个只输出一句话的足球分析助手。" },
         { role: "user", content: "用中文回复：AI 接口配置测试成功。" },
       ],
-      { maxTokens: 80 },
+      { maxTokens: 80, timeoutMs: 10000 },
     );
   } catch (error) {
     console.error("AI provider test failed:", error instanceof Error ? error.message : String(error));

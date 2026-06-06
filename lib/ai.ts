@@ -6,8 +6,8 @@ import { chatWithActiveProvider } from "./ai-providers";
 
 type Msg = { role: "system" | "user" | "assistant"; content: string };
 
-async function chat(messages: Msg[], maxTokens = 1400): Promise<string> {
-  return chatWithActiveProvider(messages, { maxTokens, temperature: 0.3 });
+async function chat(messages: Msg[], maxTokens = 1400, timeoutMs = 8000): Promise<string> {
+  return chatWithActiveProvider(messages, { maxTokens, temperature: 0.3, timeoutMs });
 }
 
 function extractJSON<T>(s: string): T {
@@ -22,6 +22,8 @@ function extractJSON<T>(s: string): T {
 // ---- tiny in-memory TTL cache (per server process) ----
 const cache = new Map<string, { t: number; v: unknown }>();
 const TTL = 30 * 60 * 1000; // 30 min
+const failureCache = new Map<string, number>();
+const FAILURE_TTL = 5 * 60 * 1000;
 async function cached<T>(key: string, fn: () => Promise<T>): Promise<T> {
   const hit = cache.get(key);
   if (hit && Date.now() - hit.t < TTL) return hit.v as T;
@@ -50,7 +52,7 @@ export async function aiChampionAnalysis(): Promise<AiChampion[]> {
         `请为以下球队各自评估夺得 2026 世界杯冠军的概率（百分比，各队独立估计，不必加和为100）：\n${list}\n\n` +
         `只返回 JSON 数组，每个元素：{"team": 英文队名(与上面一致), "prob": 数字(0-100), "factors": [两条简短中文关键理由]}。不要输出 JSON 以外的任何文字。`,
     };
-    const raw = await chat([sys, usr]);
+    const raw = await chat([sys, usr], 1400, 3500);
     const arr = extractJSON<{ team: string; prob: number; factors: string[] }[]>(raw);
     const byName = new Map(TEAMS.map((t) => [t.name.toLowerCase(), t]));
     return arr
@@ -94,7 +96,7 @@ export async function aiMatchAnalysis(homeCode: string, awayCode: string): Promi
         `对阵：${h.name}(主, FIFA#${h.fifaRank}) vs ${a.name}(客, FIFA#${a.fifaRank})，2026 世界杯小组赛，中立球场。\n` +
         `只返回 JSON：{"home": 主胜概率%, "draw": 平局概率%, "away": 客胜概率%, "confidence": 0到1的把握度, "factors": [三条简短中文关键依据], "summary": "一句话中文总结"}。三个概率加和为100。不要输出 JSON 以外的文字。`,
     };
-    const raw = await chat([sys, usr], 900);
+    const raw = await chat([sys, usr], 900, 4500);
     const o = extractJSON<any>(raw);
     const sum = (Number(o.home) + Number(o.draw) + Number(o.away)) || 100;
     return {
@@ -110,16 +112,21 @@ export async function aiMatchAnalysis(homeCode: string, awayCode: string): Promi
 
 // Safe wrappers — never break the page if MiniMax is unavailable.
 export async function safeChampion(): Promise<AiChampion[]> {
+  if ((failureCache.get("champ") ?? 0) > Date.now()) return [];
   try {
     return await aiChampionAnalysis();
   } catch {
+    failureCache.set("champ", Date.now() + FAILURE_TTL);
     return [];
   }
 }
 export async function safeMatch(h: string, a: string): Promise<AiMatch | null> {
+  const key = `match:${h}:${a}`;
+  if ((failureCache.get(key) ?? 0) > Date.now()) return null;
   try {
     return await aiMatchAnalysis(h, a);
   } catch {
+    failureCache.set(key, Date.now() + FAILURE_TTL);
     return null;
   }
 }
