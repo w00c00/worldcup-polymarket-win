@@ -20,6 +20,7 @@ const delayMs = Math.max(0, Number(args.get("delay") ?? 1200));
 const retries = Math.max(0, Number(args.get("retries") ?? 2));
 const timeoutMs = Math.max(1000, Number(args.get("timeout") ?? 15000));
 const force = args.has("force");
+const writeTs = !args.has("no-ts");
 
 fs.mkdirSync(PUBLIC_DIR, { recursive: true });
 
@@ -220,6 +221,7 @@ function extensionFor(contentType) {
 function writePhotoMap(photos) {
   const sorted = Object.entries(photos).sort(([a], [b]) => a.localeCompare(b));
   fs.writeFileSync(MANIFEST_FILE, `${JSON.stringify(Object.fromEntries(sorted), null, 2)}\n`);
+  if (!writeTs) return;
   const body = sorted.map(([id, photo]) => `  ${JSON.stringify(id)}: ${JSON.stringify(photo)},`).join("\n");
   fs.writeFileSync(PHOTO_MAP_FILE, `export const PLAYER_PHOTOS: Record<string, string> = {\n${body}\n};\n`);
 }

@@ -231,7 +231,7 @@ export async function fetchPlayerPhotosAction(formData: FormData) {
   const command = [
     `cd ${shellQuote(process.cwd())}`,
     `echo "[$(date -Is)] start player photo fetch limit=${limit} delay=${delay}"`,
-    `${shellQuote(process.execPath)} scripts/fetch-player-photos.mjs --limit=${limit} --delay=${delay} --retries=1 --timeout=8000`,
+    `${shellQuote(process.execPath)} scripts/fetch-player-photos.mjs --limit=${limit} --delay=${delay} --retries=1 --timeout=8000 --no-ts`,
     "status=$?",
     `echo "[$(date -Is)] finished status=$status"`,
     `rm -f ${shellQuote(pidFile)}`,

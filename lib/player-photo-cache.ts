@@ -12,11 +12,15 @@ export function cachedPlayerPhotos(): Record<string, string> {
   try {
     const stat = fs.statSync(MANIFEST);
     if (cached && cached.mtime === stat.mtimeMs) return cached.photos;
-    const photos = JSON.parse(fs.readFileSync(MANIFEST, "utf8")) as Record<string, string>;
+    const photos = {
+      ...PLAYER_PHOTOS,
+      ...(JSON.parse(fs.readFileSync(MANIFEST, "utf8")) as Record<string, string>),
+      ...photosFromFiles(),
+    };
     cached = { mtime: stat.mtimeMs, photos };
     return photos;
   } catch {
-    return PLAYER_PHOTOS;
+    return { ...PLAYER_PHOTOS, ...photosFromFiles() };
   }
 }
 
@@ -54,6 +58,20 @@ function readPid(file: string): number | null {
     return Number.isFinite(pid) && pid > 0 ? pid : null;
   } catch {
     return null;
+  }
+}
+
+function photosFromFiles(): Record<string, string> {
+  try {
+    return Object.fromEntries(
+      fs
+        .readdirSync(PHOTO_DIR)
+        .map((file) => file.match(/^(.+)\.(jpg|png|webp)$/i))
+        .filter(Boolean)
+        .map((match) => [match![1], `/player-photos/${match![0]}`]),
+    );
+  } catch {
+    return {};
   }
 }
 
