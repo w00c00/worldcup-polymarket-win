@@ -48,7 +48,34 @@ export default async function RegisterPage({
           已有账号？ <Link href="/login" className="font-bold text-emerald-300">登录</Link>
         </p>
       </section>
+      <KaspaSupport />
     </main>
+  );
+}
+
+function KaspaSupport() {
+  return (
+    <aside className="mt-4 rounded-2xl border border-[#70c7ba]/25 bg-[#70c7ba]/10 p-5 shadow-[0_16px_48px_rgba(0,0,0,0.18)]">
+      <div className="flex items-start gap-4">
+        <div className="flex h-14 w-24 shrink-0 items-center justify-center rounded-xl bg-white px-3">
+          <img src="/kaspa-logo.svg" alt="Kaspa" className="h-10 w-full object-contain" />
+        </div>
+        <div className="min-w-0">
+          <div className="text-sm font-black text-white">支持本站的话，请支持 Kaspa 项目</div>
+          <p className="mt-2 text-sm leading-6 text-slate-300">
+            Kaspa 是一个开源、去中心化的 PoW blockDAG 项目，强调公平启动、无预挖，并通过并行区块结构实现快速确认。
+          </p>
+          <a
+            href="https://kaspa.org/"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-3 inline-flex items-center rounded-lg border border-[#70c7ba]/45 px-3 py-2 text-sm font-bold text-[#9fe4dc] transition hover:border-[#70c7ba] hover:bg-[#70c7ba]/10"
+          >
+            Kaspa 官网
+          </a>
+        </div>
+      </div>
+    </aside>
   );
 }
 
