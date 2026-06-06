@@ -15,12 +15,17 @@ export function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-emerald-400/15 bg-[#05080f]/88 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-        <a href="/" className="flex items-center gap-2">
+        <a href="/" className="flex min-w-0 items-center gap-2">
           <span className="grid h-9 w-9 place-items-center rounded-xl border border-emerald-400/30 bg-emerald-400/10 text-xs font-black text-emerald-300 shadow-glow-electric">
             AI
           </span>
-          <span className="text-xl font-black tracking-normal text-white">
-            <span className="zen-text">World Cup</span> Console
+          <span className="min-w-0 leading-tight text-white">
+            <span className="block truncate text-base font-black tracking-normal sm:text-xl">
+              <span className="zen-text">2026世界杯</span>数据看版
+            </span>
+            <span className="block truncate text-[10px] font-bold uppercase tracking-[0.18em] text-electric">
+              Design by a fan of kaspa
+            </span>
           </span>
           <span className="hidden rounded border border-electric/30 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-electric sm:inline">
             WC 2026

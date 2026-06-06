@@ -7,7 +7,7 @@ import { championProbabilities } from "@/lib/model";
 import { TEAMS } from "@/lib/worldcup";
 
 export const metadata: Metadata = {
-  title: "World Cup Console · AI 世界杯预测市场",
+  title: "2026世界杯数据看版 Design by a fan of kaspa",
   description:
     "扫描 Polymarket 世界杯预测盘口，以 AI Provider、推送后台和胜率模型发现市场分歧。",
 };
@@ -55,10 +55,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_50%,rgba(39,245,138,0.16),transparent_38%),radial-gradient(circle_at_88%_45%,rgba(34,211,238,0.12),transparent_34%)]" />
                 <div className="relative">
                   <div className="text-[10px] font-black uppercase tracking-[0.32em] text-emerald-300">
-                    prediction console
+                    Design by a fan of kaspa
                   </div>
                   <div className="mt-2 text-2xl font-black text-white md:text-3xl">
-                    世界杯预测市场后台
+                    2026世界杯数据看版
                   </div>
                   <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-400">
                     支持用户独立配置 Telegram 与方糖推送，管理员可维护 MiniMax、MiMo 和 OpenAI-compatible AI 接口。
