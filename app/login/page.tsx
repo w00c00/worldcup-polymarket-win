@@ -6,9 +6,21 @@ import { getCurrentUser } from "@/lib/auth";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export default async function LoginPage() {
+const errorText: Record<string, string> = {
+  invalid_credentials: "邮箱或密码不正确。",
+  pending_approval: "账号正在等待管理员审核，通过后才能登录。",
+  rejected: "账号审核未通过，请联系管理员。",
+  unknown: "登录失败，请稍后再试。",
+};
+
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ error?: string; registered?: string }>;
+}) {
   const user = await getCurrentUser();
   if (user) redirect("/dashboard");
+  const params = await searchParams;
 
   return (
     <main className="mx-auto max-w-md py-10">
@@ -16,6 +28,16 @@ export default async function LoginPage() {
         <div className="mono text-[11px] uppercase tracking-[0.26em] text-emerald-300">private dashboard</div>
         <h1 className="mt-2 text-3xl font-black text-white">登录后台</h1>
         <p className="mt-2 text-sm text-slate-400">配置 AI 接口、个人推送和每日赛程预测。</p>
+        {params?.registered === "pending" && (
+          <div className="mt-4 rounded-lg border border-emerald-400/25 bg-emerald-400/10 px-3 py-2 text-sm text-emerald-200">
+            注册已提交，等待管理员审核。审核通过后即可登录。
+          </div>
+        )}
+        {params?.error && (
+          <div className="mt-4 rounded-lg border border-orange-400/25 bg-orange-400/10 px-3 py-2 text-sm text-orange-200">
+            {errorText[params.error] ?? errorText.unknown}
+          </div>
+        )}
         <form action={loginAction} className="mt-6 space-y-4">
           <label className="block text-sm">
             <span className="font-semibold text-slate-300">邮箱</span>

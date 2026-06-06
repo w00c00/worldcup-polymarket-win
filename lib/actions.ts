@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createUser, requireAdmin, requireUser, signIn, signOut } from "./auth";
+import { AuthError, createUser, requireAdmin, requireUser, signIn, signOut } from "./auth";
 import { getDb, ensureNotificationSettings } from "./db";
 import { encryptSecret } from "./secrets";
 import { chatWithActiveProvider } from "./ai-providers";
@@ -17,18 +17,39 @@ function int(formData: FormData, key: string, fallback: number): number {
   return Number.isFinite(n) ? n : fallback;
 }
 
+function authErrorCode(error: unknown): string {
+  if (error instanceof AuthError) return error.code;
+  if (error instanceof Error && error.message.includes("UNIQUE constraint failed")) return "email_exists";
+  if (error instanceof Error && error.message.includes("密码至少")) return "weak_password";
+  if (error instanceof Error && error.message.includes("有效邮箱")) return "invalid_email";
+  return "unknown";
+}
+
 export async function registerAction(formData: FormData) {
   const email = text(formData, "email");
   const password = text(formData, "password");
   const name = text(formData, "name");
-  createUser({ email, password, name });
-  await signIn(email, password);
-  redirect("/dashboard");
+  let target = "/login?registered=pending";
+  try {
+    const user = createUser({ email, password, name });
+    if (user.status === "approved") {
+      await signIn(email, password);
+      target = "/dashboard";
+    }
+  } catch (error) {
+    target = `/register?error=${authErrorCode(error)}`;
+  }
+  redirect(target);
 }
 
 export async function loginAction(formData: FormData) {
-  await signIn(text(formData, "email"), text(formData, "password"));
-  redirect("/dashboard");
+  let target = "/dashboard";
+  try {
+    await signIn(text(formData, "email"), text(formData, "password"));
+  } catch (error) {
+    target = `/login?error=${authErrorCode(error)}`;
+  }
+  redirect(target);
 }
 
 export async function logoutAction() {
@@ -131,6 +152,28 @@ export async function deleteAiProviderAction(formData: FormData) {
   await requireAdmin();
   getDb().prepare("DELETE FROM ai_providers WHERE id = ?").run(int(formData, "id", 0));
   redirect("/admin/ai?ok=deleted");
+}
+
+export async function reviewRegistrationAction(formData: FormData) {
+  const admin = await requireAdmin();
+  const userId = int(formData, "user_id", 0);
+  const decision = text(formData, "decision");
+  const db = getDb();
+  const target = db.prepare("SELECT id, role FROM users WHERE id = ?").get(userId) as { id: number; role: string } | undefined;
+  if (!target) redirect("/admin/users?error=missing");
+  if (decision === "reject" && (target.id === admin.id || target.role === "admin")) {
+    redirect("/admin/users?error=admin_reject");
+  }
+  if (decision === "approve") {
+    db.prepare("UPDATE users SET status = 'approved', updated_at = datetime('now') WHERE id = ?").run(userId);
+    redirect("/admin/users?ok=approved");
+  }
+  if (decision === "reject") {
+    db.prepare("UPDATE users SET status = 'rejected', updated_at = datetime('now') WHERE id = ?").run(userId);
+    db.prepare("DELETE FROM sessions WHERE user_id = ?").run(userId);
+    redirect("/admin/users?ok=rejected");
+  }
+  redirect("/admin/users?error=bad_decision");
 }
 
 export async function testAiProviderAction() {

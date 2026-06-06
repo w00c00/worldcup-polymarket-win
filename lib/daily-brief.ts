@@ -61,10 +61,10 @@ export async function sendTomorrowBriefForUser(userId: number): Promise<Brief> {
 export async function sendDueTomorrowBriefs(now = new Date()): Promise<{ userId: number; title: string; matchCount: number }[]> {
   const users = getDb()
     .prepare(
-      `SELECT u.id, u.email, u.name, u.role, u.created_at, u.updated_at, ns.*
+      `SELECT u.id, u.email, u.name, u.role, u.status, u.created_at, u.updated_at, ns.*
        FROM users u
        JOIN notification_settings ns ON ns.user_id = u.id
-       WHERE ns.daily_push_enabled = 1`,
+       WHERE ns.daily_push_enabled = 1 AND u.status = 'approved'`,
     )
     .all() as Array<User & NotificationSettings>;
   const sent: { userId: number; title: string; matchCount: number }[] = [];

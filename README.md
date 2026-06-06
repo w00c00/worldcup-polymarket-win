@@ -13,7 +13,7 @@
 | 单场盘口 | 比赛页优先匹配 Polymarket 真实主胜/平局/客胜市场；找不到时退回冠军盘热度代理 |
 | CLOB 数据 | 提供 token 级 orderbook、spread、midpoint、price history API |
 | AI 分析 | 后台可配置 MiniMax 国内版、小米 MiMo、OpenAI-compatible 网关 |
-| 用户系统 | 支持注册/登录；第一个注册用户自动成为管理员 |
+| 用户系统 | 支持注册/登录；第一个注册用户自动成为管理员，后续用户需管理员审核通过 |
 | 个人推送 | 每个用户可配置独立 Telegram Bot、Telegram Chat ID、方糖 Server 酱 SendKey |
 | 每日简报 | VPS cron 调用 `/api/cron/daily-brief`，按用户时区在比赛日前一天推送次日预测 |
 | 管理后台 | `/dashboard`、`/settings`、`/admin/ai` |

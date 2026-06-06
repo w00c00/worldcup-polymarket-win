@@ -70,9 +70,14 @@ export default async function DashboardPage({
 
         <Panel title="AI Provider" subtitle="管理员配置全站 AI 接口">
           {user.role === "admin" ? (
-            <Link href="/admin/ai" className="inline-flex rounded-lg bg-emerald-300 px-3 py-2 text-sm font-black text-ink-950">
-              打开 AI 后台
-            </Link>
+            <div className="flex flex-wrap gap-2">
+              <Link href="/admin/users" className="inline-flex rounded-lg bg-emerald-300 px-3 py-2 text-sm font-black text-ink-950">
+                用户审核
+              </Link>
+              <Link href="/admin/ai" className="inline-flex rounded-lg border border-emerald-400/30 px-3 py-2 text-sm font-black text-emerald-300">
+                AI 后台
+              </Link>
+            </div>
           ) : (
             <p className="text-sm text-slate-400">当前账号不是管理员，AI 接口由管理员统一维护。</p>
           )}

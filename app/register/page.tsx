@@ -6,10 +6,22 @@ import { registerAction } from "@/lib/actions";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export default async function RegisterPage() {
+const errorText: Record<string, string> = {
+  email_exists: "这个邮箱已经注册过，请直接登录或换一个邮箱。",
+  weak_password: "密码至少需要 8 位。",
+  invalid_email: "请输入有效邮箱。",
+  unknown: "注册失败，请稍后再试。",
+};
+
+export default async function RegisterPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ error?: string }>;
+}) {
   const user = await getCurrentUser();
   if (user) redirect("/dashboard");
   const firstUser = userCount() === 0;
+  const params = await searchParams;
 
   return (
     <main className="mx-auto max-w-md py-10">
@@ -17,8 +29,13 @@ export default async function RegisterPage() {
         <div className="mono text-[11px] uppercase tracking-[0.26em] text-emerald-300">account setup</div>
         <h1 className="mt-2 text-3xl font-black text-white">注册账号</h1>
         <p className="mt-2 text-sm text-slate-400">
-          {firstUser ? "第一个注册账号会自动成为管理员，可配置全站 AI Provider。" : "注册后可以配置自己的 Telegram 和方糖推送。"}
+          {firstUser ? "第一个注册账号会自动成为管理员，可配置全站 AI Provider。" : "注册后需要管理员审核，通过后才能登录控制台。"}
         </p>
+        {params?.error && (
+          <div className="mt-4 rounded-lg border border-orange-400/25 bg-orange-400/10 px-3 py-2 text-sm text-orange-200">
+            {errorText[params.error] ?? errorText.unknown}
+          </div>
+        )}
         <form action={registerAction} className="mt-6 space-y-4">
           <Field label="昵称" name="name" autoComplete="name" />
           <Field label="邮箱" name="email" type="email" autoComplete="email" required />

@@ -27,9 +27,14 @@ export default async function AdminAiPage({
               MiniMax 国内版使用原生 chatcompletion_v2；小米 MiMo 和其他模型平台按 OpenAI-compatible 协议适配。默认启用且带 API Key 的 Provider 会被比赛分析和每日推送使用。
             </p>
           </div>
-          <Link href="/dashboard" className="rounded-lg border border-white/10 px-3 py-2 text-sm font-bold text-slate-300">
-            返回控制台
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/admin/users" className="rounded-lg border border-white/10 px-3 py-2 text-sm font-bold text-slate-300">
+              用户审核
+            </Link>
+            <Link href="/dashboard" className="rounded-lg border border-white/10 px-3 py-2 text-sm font-bold text-slate-300">
+              返回控制台
+            </Link>
+          </div>
         </div>
         {params?.ok && (
           <div className="mt-4 rounded-lg border border-emerald-400/25 bg-emerald-400/10 px-3 py-2 text-sm text-emerald-200">

@@ -6,12 +6,14 @@ import path from "node:path";
 let singleton: Database.Database | null = null;
 
 export type Role = "admin" | "user";
+export type UserStatus = "pending" | "approved" | "rejected";
 
 export type User = {
   id: number;
   email: string;
   name: string;
   role: Role;
+  status: UserStatus;
   created_at: string;
   updated_at: string;
 };
@@ -73,6 +75,7 @@ function migrate(db: Database.Database) {
       email TEXT NOT NULL UNIQUE,
       name TEXT NOT NULL DEFAULT '',
       role TEXT NOT NULL DEFAULT 'user',
+      status TEXT NOT NULL DEFAULT 'pending',
       password_salt TEXT NOT NULL,
       password_hash TEXT NOT NULL,
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
@@ -128,6 +131,18 @@ function migrate(db: Database.Database) {
 
     CREATE INDEX IF NOT EXISTS idx_sessions_user_expires ON sessions(user_id, expires_at);
     CREATE INDEX IF NOT EXISTS idx_push_logs_user_created ON push_logs(user_id, created_at DESC);
+  `);
+
+  const columns = db.prepare("PRAGMA table_info(users)").all() as { name: string }[];
+  if (!columns.some((column) => column.name === "status")) {
+    db.exec("ALTER TABLE users ADD COLUMN status TEXT NOT NULL DEFAULT 'approved'");
+  }
+  db.exec(`
+    UPDATE users
+    SET status = 'approved'
+    WHERE status IS NULL OR status = '';
+
+    CREATE INDEX IF NOT EXISTS idx_users_status_created ON users(status, created_at DESC);
   `);
 }
 
