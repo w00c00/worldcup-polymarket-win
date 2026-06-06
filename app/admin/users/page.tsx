@@ -67,6 +67,9 @@ export default async function AdminUsersPage({
             <Link href="/admin/ai" className="rounded-lg border border-white/10 px-3 py-2 text-sm font-bold text-slate-300">
               AI 后台
             </Link>
+            <Link href="/admin/maintenance" className="rounded-lg border border-white/10 px-3 py-2 text-sm font-bold text-slate-300">
+              运维管理
+            </Link>
             <Link href="/dashboard" className="rounded-lg border border-white/10 px-3 py-2 text-sm font-bold text-slate-300">
               返回控制台
             </Link>

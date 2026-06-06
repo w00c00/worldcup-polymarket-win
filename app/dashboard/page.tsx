@@ -75,6 +75,9 @@ export default async function DashboardPage({
               <Link href="/admin/users" className="inline-flex rounded-lg bg-emerald-300 px-3 py-2 text-sm font-black text-ink-950">
                 用户审核
               </Link>
+              <Link href="/admin/maintenance" className="inline-flex rounded-lg border border-cyan-300/30 px-3 py-2 text-sm font-black text-cyan-200">
+                运维管理
+              </Link>
               <Link href="/admin/ai" className="inline-flex rounded-lg border border-emerald-400/30 px-3 py-2 text-sm font-black text-emerald-300">
                 AI 后台
               </Link>

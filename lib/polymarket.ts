@@ -92,12 +92,26 @@ export type PricePoint = { t: number; p: number };
 
 // Curated set of football-relevant Polymarket event slugs to aggregate.
 // More per-match / prop markets list automatically as the tournament nears.
+const GROUP_WINNER_SLUGS = Array.from({ length: 12 }, (_, index) =>
+  `world-cup-group-${String.fromCharCode(97 + index)}-winner`
+);
+
 const WC_EVENT_SLUGS = [
   "world-cup-winner",
+  "world-cup-golden-boot-winner",
+  "world-cup-top-scorer-nation",
+  "world-cup-team-to-advance-to-knockout-stages",
+  "world-cup-nation-to-reach-final",
   "will-any-2026-fifa-world-cup-game-scheduled-in-the-us-be-relocated-abroad",
-  "world-cup-golden-boot",
-  "world-cup-top-scorer",
   "fifa-world-cup-2026-winner",
+  ...GROUP_WINNER_SLUGS,
+];
+
+const WC_DISCOVERY_QUERIES = [
+  "2026 FIFA World Cup",
+  "World Cup group winner",
+  "World Cup Golden Boot",
+  "World Cup top scorer",
 ];
 
 async function getJSON(url: string) {
@@ -182,7 +196,7 @@ function eventToMarket(ev: any): Market {
     title: (ev.title || "").trim(),
     slug: ev.slug,
     url: `https://polymarket.com/event/${ev.slug}`,
-    category: "World Cup",
+    category: marketCategory(ev),
     outcomes,
     volume,
     liquidity,
@@ -204,22 +218,51 @@ function optionalNum(value: unknown): number | undefined {
   return Number.isFinite(n) ? n : undefined;
 }
 
+function marketCategory(ev: any): string {
+  const text = normalize(`${ev.title ?? ""} ${ev.slug ?? ""}`);
+  if (text.includes("group") && text.includes("winner")) return "小组冠军";
+  if (text.includes("golden boot")) return "金靴";
+  if (text.includes("top scorer")) return "得分王";
+  if (text.includes("knockout")) return "晋级淘汰赛";
+  if (text.includes("reach final")) return "进决赛";
+  if (text.includes("relocated")) return "赛程变更";
+  if (text.includes("winner")) return "总冠军";
+  return "世界杯";
+}
+
 export async function getWorldCupMarkets(): Promise<Market[]> {
   const out: Market[] = [];
   const seen = new Set<string>();
-  for (const slug of WC_EVENT_SLUGS) {
-    try {
-      const data = await getJSON(`${GAMMA}/events?slug=${slug}`);
-      const events = Array.isArray(data) ? data : [data];
-      for (const ev of events) {
-        if (!ev || seen.has(String(ev.id))) continue;
-        seen.add(String(ev.id));
-        out.push(eventToMarket(ev));
+
+  function addEvent(ev: any) {
+    if (!ev || seen.has(String(ev.id)) || !isWorldCupEvent(ev)) return;
+    seen.add(String(ev.id));
+    const market = eventToMarket(ev);
+    if (market.outcomes.length) out.push(market);
+  }
+
+  await Promise.all(
+    WC_EVENT_SLUGS.map(async (slug) => {
+      try {
+        const data = await getJSON(`${GAMMA}/events?slug=${slug}`);
+        const events = Array.isArray(data) ? data : [data];
+        for (const ev of events) addEvent(ev);
+      } catch {
+        /* skip unavailable slug */
       }
+    }),
+  );
+
+  for (const query of WC_DISCOVERY_QUERIES) {
+    try {
+      const data = await getJSON(`${GAMMA}/public-search?q=${encodeURIComponent(query)}&limit=30`);
+      const events = Array.isArray(data?.events) ? data.events : [];
+      for (const ev of events) addEvent(ev);
     } catch {
-      /* skip unavailable slug */
+      /* ignore discovery failures */
     }
   }
+
   // Fallback discovery if curated slugs missed: search soccer tag.
   if (out.length === 0) {
     try {
@@ -236,6 +279,13 @@ export async function getWorldCupMarkets(): Promise<Market[]> {
     }
   }
   return out.sort((a, b) => b.heat - a.heat);
+}
+
+function isWorldCupEvent(ev: any): boolean {
+  if (ev.closed) return false;
+  const haystack = normalize(`${ev.title ?? ""} ${ev.slug ?? ""}`);
+  if (!haystack.includes("world cup")) return false;
+  return !haystack.includes("club world cup");
 }
 
 // Polymarket implied probability vs our model's champion probability — surfaces

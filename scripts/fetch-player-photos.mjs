@@ -5,6 +5,7 @@ const ROOT = process.cwd();
 const DATA_FILE = path.join(ROOT, "lib/generated/player-data.ts");
 const PHOTO_MAP_FILE = path.join(ROOT, "lib/generated/player-photos.ts");
 const PUBLIC_DIR = path.join(ROOT, "public/player-photos");
+const MANIFEST_FILE = path.join(PUBLIC_DIR, "manifest.json");
 const ATTRIBUTION_FILE = path.join(PUBLIC_DIR, "attribution.json");
 const USER_AGENT = "worldcup-polymarket-win/1.0 (player photo cache)";
 
@@ -218,6 +219,7 @@ function extensionFor(contentType) {
 
 function writePhotoMap(photos) {
   const sorted = Object.entries(photos).sort(([a], [b]) => a.localeCompare(b));
+  fs.writeFileSync(MANIFEST_FILE, `${JSON.stringify(Object.fromEntries(sorted), null, 2)}\n`);
   const body = sorted.map(([id, photo]) => `  ${JSON.stringify(id)}: ${JSON.stringify(photo)},`).join("\n");
   fs.writeFileSync(PHOTO_MAP_FILE, `export const PLAYER_PHOTOS: Record<string, string> = {\n${body}\n};\n`);
 }

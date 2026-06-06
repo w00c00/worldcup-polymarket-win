@@ -1,5 +1,8 @@
 "use server";
 
+import fs from "node:fs";
+import path from "node:path";
+import { spawn } from "node:child_process";
 import { redirect } from "next/navigation";
 import { AuthError, createUser, requireAdmin, requireUser, signIn, signOut } from "./auth";
 import { getDb, ensureNotificationSettings } from "./db";
@@ -207,4 +210,62 @@ export async function previewTomorrowBriefAction() {
   await requireUser();
   const brief = await buildTomorrowBrief({ timezone: "Asia/Shanghai", includeAi: false });
   return brief.body;
+}
+
+export async function fetchPlayerPhotosAction(formData: FormData) {
+  await requireAdmin();
+  const limit = Math.max(20, Math.min(1255, int(formData, "limit", 160)));
+  const delay = Math.max(200, Math.min(5000, int(formData, "delay", 900)));
+  const dataDir = process.env.DATA_DIR || path.join(process.cwd(), ".data");
+  const jobDir = path.join(dataDir, "jobs");
+  fs.mkdirSync(jobDir, { recursive: true });
+  const pidFile = path.join(jobDir, "player-photo-fetch.pid");
+  const logFile = path.join(jobDir, "player-photo-fetch.log");
+
+  const existingPid = readPid(pidFile);
+  if (existingPid && isProcessRunning(existingPid)) {
+    redirect("/admin/maintenance?error=photos_running");
+  }
+  fs.rmSync(pidFile, { force: true });
+
+  const command = [
+    `cd ${shellQuote(process.cwd())}`,
+    `echo "[$(date -Is)] start player photo fetch limit=${limit} delay=${delay}"`,
+    `${shellQuote(process.execPath)} scripts/fetch-player-photos.mjs --limit=${limit} --delay=${delay} --retries=1 --timeout=8000`,
+    "status=$?",
+    `echo "[$(date -Is)] finished status=$status"`,
+    `rm -f ${shellQuote(pidFile)}`,
+    "exit $status",
+  ].join("; ");
+  const logFd = fs.openSync(logFile, "a");
+  const child = spawn("/bin/sh", ["-lc", command], {
+    cwd: process.cwd(),
+    detached: true,
+    stdio: ["ignore", logFd, logFd],
+  });
+  fs.writeFileSync(pidFile, String(child.pid));
+  child.unref();
+  redirect("/admin/maintenance?ok=photos_started");
+}
+
+function readPid(file: string): number | null {
+  try {
+    const pid = Number(fs.readFileSync(file, "utf8").trim());
+    return Number.isFinite(pid) && pid > 0 ? pid : null;
+  } catch {
+    return null;
+  }
+}
+
+function isProcessRunning(pid: number): boolean {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function shellQuote(value: string): string {
+  return `'${value.replace(/'/g, "'\\''")}'`;
 }

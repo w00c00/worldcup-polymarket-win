@@ -1,7 +1,7 @@
 // Player pool generated from public World Cup 2026 squad pages. Player photos
 // prefer static cached Wikimedia images and fall back to local SVG caricatures.
 import { GENERATED_PLAYERS } from "./generated/player-data";
-import { PLAYER_PHOTOS } from "./generated/player-photos";
+import { cachedPlayerPhoto } from "./player-photo-cache";
 
 export type Player = {
   id: string;
@@ -29,7 +29,7 @@ export function playersByTeam(code: string): Player[] {
   return PLAYERS.filter((p) => p.team === code);
 }
 export function playerPhoto(p: Player): string {
-  return PLAYER_PHOTOS[p.id] ?? p.photo ?? cartoonPortrait(p);
+  return cachedPlayerPhoto(p.id) ?? p.photo ?? cartoonPortrait(p);
 }
 
 type PortraitConfig = {
