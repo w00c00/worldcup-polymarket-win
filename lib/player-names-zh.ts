@@ -507,6 +507,7 @@ function normalizeLatin(value: string): string {
   return value
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
     .replace(/æ/g, "ae")
     .replace(/ø/g, "o")
     .replace(/œ/g, "oe")
@@ -514,7 +515,6 @@ function normalizeLatin(value: string): string {
     .replace(/ł/g, "l")
     .replace(/ð/g, "d")
     .replace(/þ/g, "th")
-    .toLowerCase()
     .replace(/[^a-z]/g, "");
 }
 
