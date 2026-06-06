@@ -8,10 +8,12 @@ import { Countdown } from "@/components/Countdown";
 import { safeMatch } from "@/lib/ai";
 import { getMatchMarkets, getWorldCupMarkets, type MatchMarketSet, type MatchPolymarket } from "@/lib/polymarket";
 import { formMarks, getTeamInsight } from "@/lib/team-insights";
+import { requireUser } from "@/lib/auth";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export default async function MatchPage({ params }: { params: Promise<{ id: string }> }) {
+  await requireUser();
   const { id } = await params;
   const m = matchById(id);
   if (!m) return notFound();

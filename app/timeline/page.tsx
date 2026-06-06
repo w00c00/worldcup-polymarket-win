@@ -3,9 +3,13 @@ import { groupStageAnalysis } from "@/lib/model";
 import { getWorldCupMarkets } from "@/lib/polymarket";
 import { Flag } from "@/components/ui";
 import { Countdown } from "@/components/Countdown";
+import { requireUser } from "@/lib/auth";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function TimelinePage() {
+  await requireUser();
   const markets = await getWorldCupMarkets();
   const winner = markets.find((market) => market.slug?.includes("winner")) ?? markets[0];
   const codeByName = new Map(TEAMS.map((team) => [team.name, team.code]));

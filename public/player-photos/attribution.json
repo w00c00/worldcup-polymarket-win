@@ -1,0 +1,490 @@
+{
+  "es-dani-olmo": {
+    "name": "Dani Olmo",
+    "pageTitle": "Dani Olmo",
+    "pageUrl": "https://en.wikipedia.org/wiki/Dani_Olmo",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Dani_Olmo_2022.jpg",
+    "localPath": "/player-photos/es-dani-olmo.jpg",
+    "cachedAt": "2026-06-06T05:34:58.934Z"
+  },
+  "es-ferran-torres": {
+    "name": "Ferran Torres",
+    "pageTitle": "Ferran Torres",
+    "pageUrl": "https://en.wikipedia.org/wiki/Ferran_Torres",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Ferran_Torres_2019.png",
+    "localPath": "/player-photos/es-ferran-torres.png",
+    "cachedAt": "2026-06-06T05:35:00.047Z"
+  },
+  "fr-aurelien-tchouameni": {
+    "name": "Aurélien Tchouaméni",
+    "pageTitle": "Aurélien Tchouaméni",
+    "pageUrl": "https://en.wikipedia.org/wiki/Aur%C3%A9lien_Tchouam%C3%A9ni",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0f/2025_04_26_Final_de_la_Copa_del_Rey_-_Aur%C3%A9lien_Tchouam%C3%A9ni.jpg",
+    "localPath": "/player-photos/fr-aurelien-tchouameni.jpg",
+    "cachedAt": "2026-06-06T05:35:03.233Z"
+  },
+  "fr-kylian-mbappe": {
+    "name": "Kylian Mbappé",
+    "pageTitle": "Kylian Mbappé",
+    "pageUrl": "https://en.wikipedia.org/wiki/Kylian_Mbapp%C3%A9",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/6/66/Picture_with_Mbapp%C3%A9_%28cropped_and_rotated%29.jpg",
+    "localPath": "/player-photos/fr-kylian-mbappe.jpg",
+    "cachedAt": "2026-06-06T05:35:04.810Z"
+  },
+  "fr-mike-maignan": {
+    "name": "Mike Maignan",
+    "pageTitle": "Mike Maignan",
+    "pageUrl": "https://en.wikipedia.org/wiki/Mike_Maignan",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Mike_Maignan_2022_Salzburg_vs_AC_Milan_2022-09-06.jpg",
+    "localPath": "/player-photos/fr-mike-maignan.jpg",
+    "cachedAt": "2026-06-06T05:35:05.608Z"
+  },
+  "fr-ousmane-dembele": {
+    "name": "Ousmane Dembélé",
+    "pageTitle": "Ousmane Dembélé",
+    "pageUrl": "https://en.wikipedia.org/wiki/Ousmane_Demb%C3%A9l%C3%A9",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Ousmane_Demb%C3%A9l%C3%A9_2018_%28cropped%29.jpg",
+    "localPath": "/player-photos/fr-ousmane-dembele.jpg",
+    "cachedAt": "2026-06-06T05:35:06.412Z"
+  },
+  "ar-nahuel-molina": {
+    "name": "Nahuel Molina",
+    "pageTitle": "Nahuel Molina",
+    "pageUrl": "https://en.wikipedia.org/wiki/Nahuel_Molina",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Universidad_Cat%C3%B3lica_-_Rosario_Central_20190313_04.jpg",
+    "localPath": "/player-photos/ar-nahuel-molina.jpg",
+    "cachedAt": "2026-06-06T05:35:08.350Z"
+  },
+  "nl-jurrien-timber": {
+    "name": "Jurriën Timber",
+    "pageTitle": "Jurriën Timber",
+    "pageUrl": "https://en.wikipedia.org/wiki/Jurri%C3%ABn_Timber",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9f/JURRIEN_TIMBER.jpg",
+    "localPath": "/player-photos/nl-jurrien-timber.jpg",
+    "cachedAt": "2026-06-06T05:36:01.970Z"
+  },
+  "nl-nathan-ake": {
+    "name": "Nathan Aké",
+    "pageTitle": "Nathan Aké",
+    "pageUrl": "https://en.wikipedia.org/wiki/Nathan_Ak%C3%A9",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/3/34/Yokohama_F._Marinos_-_Manchester_City_%283-5%29_-_53075276224_%28Nathan_Ake%29.jpg",
+    "localPath": "/player-photos/nl-nathan-ake.jpg",
+    "cachedAt": "2026-06-06T05:36:02.782Z"
+  },
+  "nl-virgil-van-dijk": {
+    "name": "Virgil van Dijk",
+    "pageTitle": "Virgil van Dijk",
+    "pageUrl": "https://en.wikipedia.org/wiki/Virgil_van_Dijk",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5d/20160604_AUT_NED_8876_%28cropped%29.jpg",
+    "localPath": "/player-photos/nl-virgil-van-dijk.jpg",
+    "cachedAt": "2026-06-06T05:36:03.669Z"
+  },
+  "pt-diogo-costa": {
+    "name": "Diogo Costa",
+    "pageTitle": "Diogo Costa",
+    "pageUrl": "https://en.wikipedia.org/wiki/Diogo_Costa",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Portugal_national_football_team_0866_%28Diogo_Costa%29.jpg",
+    "localPath": "/player-photos/pt-diogo-costa.jpg",
+    "cachedAt": "2026-06-06T05:36:04.491Z"
+  },
+  "pt-joao-felix": {
+    "name": "Joao Felix",
+    "pageTitle": "João Félix",
+    "pageUrl": "https://en.wikipedia.org/wiki/Jo%C3%A3o_F%C3%A9lix",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/5/55/Jo%C3%A3o_F%C3%A9lix_USMNT_v_Portugal_Mar_31_2026-22_%28cropped%29.jpg",
+    "localPath": "/player-photos/pt-joao-felix.jpg",
+    "cachedAt": "2026-06-06T05:36:06.510Z"
+  },
+  "pt-nuno-mendes": {
+    "name": "Nuno Mendes",
+    "pageTitle": "Nuno Mendes (footballer, born 2002)",
+    "pageUrl": "https://en.wikipedia.org/wiki/Nuno_Mendes_(footballer,_born_2002)",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Portugal_national_football_team_0866_%28cropped%29.jpg",
+    "localPath": "/player-photos/pt-nuno-mendes.jpg",
+    "cachedAt": "2026-06-06T05:36:08.204Z"
+  },
+  "uy-federico-valverde": {
+    "name": "Federico Valverde",
+    "pageTitle": "Federico Valverde",
+    "pageUrl": "https://en.wikipedia.org/wiki/Federico_Valverde",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/7/73/Federico_Valverde_2021_%28cropped%29.jpg",
+    "localPath": "/player-photos/uy-federico-valverde.jpg",
+    "cachedAt": "2026-06-06T05:36:09.075Z"
+  },
+  "fr-rayan-cherki": {
+    "name": "Rayan Cherki",
+    "pageTitle": "Rayan Cherki",
+    "pageUrl": "https://en.wikipedia.org/wiki/Rayan_Cherki",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/4/43/Cherki_asse_ol_2425.png",
+    "localPath": "/player-photos/fr-rayan-cherki.png",
+    "cachedAt": "2026-06-06T05:43:31.988Z"
+  },
+  "es-david-raya": {
+    "name": "David Raya",
+    "pageTitle": "David Raya",
+    "pageUrl": "https://en.wikipedia.org/wiki/David_Raya",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/David_Raya_in_2025_%28cropped%29.jpg/960px-David_Raya_in_2025_%28cropped%29.jpg",
+    "localPath": "/player-photos/es-david-raya.jpg",
+    "cachedAt": "2026-06-06T05:44:43.363Z"
+  },
+  "es-eric-garcia": {
+    "name": "Eric García",
+    "pageTitle": "Eric García (footballer, born 2001)",
+    "pageUrl": "https://en.wikipedia.org/wiki/Eric_Garc%C3%ADa_(footballer,_born_2001)",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Eric_Garcia_autographs_2022_%28cropped%29.jpg",
+    "localPath": "/player-photos/es-eric-garcia.jpg",
+    "cachedAt": "2026-06-06T05:44:44.991Z"
+  },
+  "es-joan-garcia": {
+    "name": "Joan García",
+    "pageTitle": "Joan Garcia",
+    "pageUrl": "https://en.wikipedia.org/wiki/Joan_Garcia",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4b/CE_Manresa_Alev%C3%AD_A%2C_amb_el_porter_Joan_Garcia%2C_abril_de_2012_%28cropped%29.jpg",
+    "localPath": "/player-photos/es-joan-garcia.jpg",
+    "cachedAt": "2026-06-06T05:45:10.092Z"
+  },
+  "es-marcos-llorente": {
+    "name": "Marcos Llorente",
+    "pageTitle": "Marcos Llorente",
+    "pageUrl": "https://en.wikipedia.org/wiki/Marcos_Llorente",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/4/49/Marcos_Llorente_2019.jpg",
+    "localPath": "/player-photos/es-marcos-llorente.jpg",
+    "cachedAt": "2026-06-06T05:45:12.100Z"
+  },
+  "fr-adrien-rabiot": {
+    "name": "Adrien Rabiot",
+    "pageTitle": "Adrien Rabiot",
+    "pageUrl": "https://en.wikipedia.org/wiki/Adrien_Rabiot",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5a/Rabiot_asse_om_2425.png",
+    "localPath": "/player-photos/fr-adrien-rabiot.png",
+    "cachedAt": "2026-06-06T05:45:13.782Z"
+  },
+  "gb-eng-bukayo-saka": {
+    "name": "Bukayo Saka",
+    "pageTitle": "Bukayo Saka",
+    "pageUrl": "https://en.wikipedia.org/wiki/Bukayo_Saka",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/1_bukayo_saka_arsenal_2025_%28cropped%29.jpg/960px-1_bukayo_saka_arsenal_2025_%28cropped%29.jpg",
+    "localPath": "/player-photos/gb-eng-bukayo-saka.jpg",
+    "cachedAt": "2026-06-06T05:45:39.119Z"
+  },
+  "gb-eng-harry-kane": {
+    "name": "Harry Kane",
+    "pageTitle": "Harry Kane",
+    "pageUrl": "https://en.wikipedia.org/wiki/Harry_Kane",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/9/91/Harry_Kane_on_October_10%2C_2023.jpg",
+    "localPath": "/player-photos/gb-eng-harry-kane.jpg",
+    "cachedAt": "2026-06-06T05:46:04.618Z"
+  },
+  "gb-eng-marcus-rashford": {
+    "name": "Marcus Rashford",
+    "pageTitle": "Marcus Rashford",
+    "pageUrl": "https://en.wikipedia.org/wiki/Marcus_Rashford",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/1/11/Marcus_Rashford_in_2023.jpg",
+    "localPath": "/player-photos/gb-eng-marcus-rashford.jpg",
+    "cachedAt": "2026-06-06T05:46:06.307Z"
+  },
+  "ar-franco-mastantuono": {
+    "name": "Franco Mastantuono",
+    "pageTitle": "Franco Mastantuono",
+    "pageUrl": "https://en.wikipedia.org/wiki/Franco_Mastantuono",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/0/00/Franco_Mastantuono_in_2025_%28cropped%29.jpg",
+    "localPath": "/player-photos/ar-franco-mastantuono.jpg",
+    "cachedAt": "2026-06-06T05:46:31.286Z"
+  },
+  "ar-lionel-messi": {
+    "name": "Lionel Messi",
+    "pageTitle": "Lionel Messi",
+    "pageUrl": "https://en.wikipedia.org/wiki/Lionel_Messi",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Lionel_Messi_White_House_2026_%283x4_cropped%29.jpg/960px-Lionel_Messi_White_House_2026_%283x4_cropped%29.jpg",
+    "localPath": "/player-photos/ar-lionel-messi.jpg",
+    "cachedAt": "2026-06-06T05:46:56.531Z"
+  },
+  "br-raphinha": {
+    "name": "Raphinha",
+    "pageTitle": "Raphinha",
+    "pageUrl": "https://en.wikipedia.org/wiki/Raphinha",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Raphael_Dias_Belloli_2023.jpg",
+    "localPath": "/player-photos/br-raphinha.jpg",
+    "cachedAt": "2026-06-06T05:46:58.329Z"
+  },
+  "es-alex-baena": {
+    "name": "Álex Baena",
+    "pageTitle": "Álex Baena",
+    "pageUrl": "https://en.wikipedia.org/wiki/%C3%81lex_Baena",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/%C3%81lex_Baena_2019.jpg/960px-%C3%81lex_Baena_2019.jpg",
+    "localPath": "/player-photos/es-alex-baena.jpg",
+    "cachedAt": "2026-06-06T05:47:00.102Z"
+  },
+  "es-gavi": {
+    "name": "Gavi",
+    "pageTitle": "Gavi (footballer)",
+    "pageUrl": "https://en.wikipedia.org/wiki/Gavi_(footballer)",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Jugadors_pretemporada_pels_Estats_Units_%28cropped%292.jpg",
+    "localPath": "/player-photos/es-gavi.jpg",
+    "cachedAt": "2026-06-06T05:47:01.594Z"
+  },
+  "es-mikel-merino": {
+    "name": "Mikel Merino",
+    "pageTitle": "Mikel Merino",
+    "pageUrl": "https://en.wikipedia.org/wiki/Mikel_Merino",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/1_mikel_merino_arsenal_2025_%28cropped%29.jpg/960px-1_mikel_merino_arsenal_2025_%28cropped%29.jpg",
+    "localPath": "/player-photos/es-mikel-merino.jpg",
+    "cachedAt": "2026-06-06T05:47:03.258Z"
+  },
+  "fr-desire-doue": {
+    "name": "Désiré Doué",
+    "pageTitle": "Désiré Doué",
+    "pageUrl": "https://en.wikipedia.org/wiki/D%C3%A9sir%C3%A9_Dou%C3%A9",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Doue_asse_psg_2425.png",
+    "localPath": "/player-photos/fr-desire-doue.png",
+    "cachedAt": "2026-06-06T05:47:05.020Z"
+  },
+  "fr-jules-kounde": {
+    "name": "Jules Koundé",
+    "pageTitle": "Jules Koundé",
+    "pageUrl": "https://en.wikipedia.org/wiki/Jules_Kound%C3%A9",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Jules_Kound%C3%A9_2020.jpg",
+    "localPath": "/player-photos/fr-jules-kounde.jpg",
+    "cachedAt": "2026-06-06T05:47:30.139Z"
+  },
+  "fr-lucas-hernandez": {
+    "name": "Lucas Hernández",
+    "pageTitle": "Lucas Hernandez",
+    "pageUrl": "https://en.wikipedia.org/wiki/Lucas_Hernandez",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b5/Hernandez_asse_psg_2425.png",
+    "localPath": "/player-photos/fr-lucas-hernandez.png",
+    "cachedAt": "2026-06-06T05:47:32.041Z"
+  },
+  "fr-maghnes-akliouche": {
+    "name": "Maghnes Akliouche",
+    "pageTitle": "Maghnes Akliouche",
+    "pageUrl": "https://en.wikipedia.org/wiki/Maghnes_Akliouche",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/0/00/Akliouche2_asse_asm_2425.png",
+    "localPath": "/player-photos/fr-maghnes-akliouche.png",
+    "cachedAt": "2026-06-06T05:47:33.757Z"
+  },
+  "fr-michael-olise": {
+    "name": "Michael Olise",
+    "pageTitle": "Michael Olise",
+    "pageUrl": "https://en.wikipedia.org/wiki/Michael_Olise",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/FC_RB_Salzburg_gegen_FC_Bayern_M%C3%BCnchen_%282026-01-06_Testspiel%29_10.jpg/960px-FC_RB_Salzburg_gegen_FC_Bayern_M%C3%BCnchen_%282026-01-06_Testspiel%29_10.jpg",
+    "localPath": "/player-photos/fr-michael-olise.jpg",
+    "cachedAt": "2026-06-06T05:47:59.081Z"
+  },
+  "fr-warren-zaire-emery": {
+    "name": "Warren Zaïre-Emery",
+    "pageTitle": "Warren Zaïre-Emery",
+    "pageUrl": "https://en.wikipedia.org/wiki/Warren_Za%C3%AFre-Emery",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Zaire_asse_psg_2425.png",
+    "localPath": "/player-photos/fr-warren-zaire-emery.png",
+    "cachedAt": "2026-06-06T05:48:00.936Z"
+  },
+  "pt-bruno-fernandes": {
+    "name": "Bruno Fernandes",
+    "pageTitle": "Bruno Fernandes",
+    "pageUrl": "https://en.wikipedia.org/wiki/Bruno_Fernandes",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Bruno_Fernandes_USMNT_v_Portugal_Mar_31_2026-27_%28cropped%29.jpg/960px-Bruno_Fernandes_USMNT_v_Portugal_Mar_31_2026-27_%28cropped%29.jpg",
+    "localPath": "/player-photos/pt-bruno-fernandes.jpg",
+    "cachedAt": "2026-06-06T05:48:26.236Z"
+  },
+  "pt-pedro-neto": {
+    "name": "Pedro Neto",
+    "pageTitle": "Pedro Neto",
+    "pageUrl": "https://en.wikipedia.org/wiki/Pedro_Neto",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Pedro_Neto_USMNT_v_Portugal_Mar_31_2026-48.jpg/960px-Pedro_Neto_USMNT_v_Portugal_Mar_31_2026-48.jpg",
+    "localPath": "/player-photos/pt-pedro-neto.jpg",
+    "cachedAt": "2026-06-06T05:48:28.001Z"
+  },
+  "ar-agustin-giay": {
+    "name": "Agustín Giay",
+    "pageTitle": "Agustín Giay",
+    "pageUrl": "https://en.wikipedia.org/wiki/Agust%C3%ADn_Giay",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Entrenamiento_Argentina_Sub20_previo_al_mundial_-_BugWarp_%2836%29_%28cropped%29.jpg/960px-Entrenamiento_Argentina_Sub20_previo_al_mundial_-_BugWarp_%2836%29_%28cropped%29.jpg",
+    "localPath": "/player-photos/ar-agustin-giay.jpg",
+    "cachedAt": "2026-06-06T05:48:29.715Z"
+  },
+  "ar-alejandro-garnacho": {
+    "name": "Alejandro Garnacho",
+    "pageTitle": "Alejandro Garnacho",
+    "pageUrl": "https://en.wikipedia.org/wiki/Alejandro_Garnacho",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Alejandro_Garnacho_7_August_2022_%28cropped%29.jpg",
+    "localPath": "/player-photos/ar-alejandro-garnacho.jpg",
+    "cachedAt": "2026-06-06T05:48:31.262Z"
+  },
+  "ar-maximo-perrone": {
+    "name": "Máximo Perrone",
+    "pageTitle": "Máximo Perrone",
+    "pageUrl": "https://en.wikipedia.org/wiki/M%C3%A1ximo_Perrone",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Maximo_Perrone_%28cropped%29.jpg/960px-Maximo_Perrone_%28cropped%29.jpg",
+    "localPath": "/player-photos/ar-maximo-perrone.jpg",
+    "cachedAt": "2026-06-06T05:48:56.553Z"
+  },
+  "br-alisson-becker": {
+    "name": "Alisson Becker",
+    "pageTitle": "Alisson Becker",
+    "pageUrl": "https://en.wikipedia.org/wiki/Alisson_Becker",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/20180610_FIFA_Friendly_Match_Austria_vs._Brazil_850_1625.jpg/960px-20180610_FIFA_Friendly_Match_Austria_vs._Brazil_850_1625.jpg",
+    "localPath": "/player-photos/br-alisson-becker.jpg",
+    "cachedAt": "2026-06-06T05:49:21.791Z"
+  },
+  "br-gabriel-magalhaes": {
+    "name": "Gabriel Magalhaes",
+    "pageTitle": "Gabriel Magalhães",
+    "pageUrl": "https://en.wikipedia.org/wiki/Gabriel_Magalh%C3%A3es",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0d/GabrielLille2019.png",
+    "localPath": "/player-photos/br-gabriel-magalhaes.png",
+    "cachedAt": "2026-06-06T05:49:47.059Z"
+  },
+  "de-kai-havertz": {
+    "name": "Kai Havertz",
+    "pageTitle": "Kai Havertz",
+    "pageUrl": "https://en.wikipedia.org/wiki/Kai_Havertz",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/1_kai_havertz_2026_%28cropped%29.jpg/960px-1_kai_havertz_2026_%28cropped%29.jpg",
+    "localPath": "/player-photos/de-kai-havertz.jpg",
+    "cachedAt": "2026-06-06T05:49:48.891Z"
+  },
+  "es-marc-cucurella": {
+    "name": "Marc Cucurella",
+    "pageTitle": "Marc Cucurella",
+    "pageUrl": "https://en.wikipedia.org/wiki/Marc_Cucurella",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/5/50/Spain_football_team_in_202_%28Marc_Cucurella%29.jpg",
+    "localPath": "/player-photos/es-marc-cucurella.jpg",
+    "cachedAt": "2026-06-06T05:49:50.428Z"
+  },
+  "es-marc-pubill": {
+    "name": "Marc Pubill",
+    "pageTitle": "Marc Pubill",
+    "pageUrl": "https://en.wikipedia.org/wiki/Marc_Pubill",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/d/df/Uzbekistan_vs._Spain%2C_2024_Summer_Olympic_men%27s_association_football%2C_2024-07-24_%28250%29_-_Marc_Pubill.jpg",
+    "localPath": "/player-photos/es-marc-pubill.jpg",
+    "cachedAt": "2026-06-06T05:49:51.952Z"
+  },
+  "es-mikel-oyarzabal": {
+    "name": "Mikel Oyarzabal",
+    "pageTitle": "Mikel Oyarzabal",
+    "pageUrl": "https://en.wikipedia.org/wiki/Mikel_Oyarzabal",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/UEFA_EURO_qualifiers_Sweden_vs_Spain_20191015_108_%28cropped%29.jpg/960px-UEFA_EURO_qualifiers_Sweden_vs_Spain_20191015_108_%28cropped%29.jpg",
+    "localPath": "/player-photos/es-mikel-oyarzabal.jpg",
+    "cachedAt": "2026-06-06T05:49:53.698Z"
+  },
+  "es-nico-williams": {
+    "name": "Nico Williams",
+    "pageTitle": "Nico Williams",
+    "pageUrl": "https://en.wikipedia.org/wiki/Nico_Williams",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/ATHLETIC-OSASUNA_SEMIFINAL._MAIDER_GOIKOETXEA_%28168%29_%28cropped%29.jpg/960px-ATHLETIC-OSASUNA_SEMIFINAL._MAIDER_GOIKOETXEA_%28168%29_%28cropped%29.jpg",
+    "localPath": "/player-photos/es-nico-williams.jpg",
+    "cachedAt": "2026-06-06T05:49:55.354Z"
+  },
+  "es-unai-simon": {
+    "name": "Unai Simón",
+    "pageTitle": "Unai Simón",
+    "pageUrl": "https://en.wikipedia.org/wiki/Unai_Sim%C3%B3n",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Unai_Sim%C3%B3n_2025_%28cropped%29.jpg/960px-Unai_Sim%C3%B3n_2025_%28cropped%29.jpg",
+    "localPath": "/player-photos/es-unai-simon.jpg",
+    "cachedAt": "2026-06-06T05:49:56.900Z"
+  },
+  "gb-eng-eberechi-eze": {
+    "name": "Eberechi Eze",
+    "pageTitle": "Eberechi Eze",
+    "pageUrl": "https://en.wikipedia.org/wiki/Eberechi_Eze",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Qpr2018eberechieeze001.jpg/960px-Qpr2018eberechieeze001.jpg",
+    "localPath": "/player-photos/gb-eng-eberechi-eze.jpg",
+    "cachedAt": "2026-06-06T05:50:45.323Z"
+  },
+  "gb-eng-marc-guehi": {
+    "name": "Marc Guéhi",
+    "pageTitle": "Marc Guéhi",
+    "pageUrl": "https://en.wikipedia.org/wiki/Marc_Gu%C3%A9hi",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Marc_Guehi_December_2018.jpg/960px-Marc_Guehi_December_2018.jpg",
+    "localPath": "/player-photos/gb-eng-marc-guehi.jpg",
+    "cachedAt": "2026-06-06T05:51:34.403Z"
+  },
+  "gb-eng-noni-madueke": {
+    "name": "Noni Madueke",
+    "pageTitle": "Noni Madueke",
+    "pageUrl": "https://en.wikipedia.org/wiki/Noni_Madueke",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Fulham_v_Chelsea_20042025_%287%29_%28Noni_Madueke%29.jpg",
+    "localPath": "/player-photos/gb-eng-noni-madueke.jpg",
+    "cachedAt": "2026-06-06T05:51:35.959Z"
+  },
+  "nl-frenkie-de-jong": {
+    "name": "Frenkie de Jong",
+    "pageTitle": "Frenkie de Jong",
+    "pageUrl": "https://en.wikipedia.org/wiki/Frenkie_de_Jong",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/4/42/%D0%9C%D0%B0%D1%82%D1%87_%C2%AB%D0%94%D0%B8%D0%BD%D0%B0%D0%BC%D0%BE%C2%BB_-_%C2%AB%D0%91%D0%B0%D1%80%D1%81%D0%B5%D0%BB%D0%BE%D0%BD%D0%B0%C2%BB_0-1._2_%D0%BD%D0%BE%D1%8F%D0%B1%D1%80%D1%8F_2021_%D0%B3%D0%BE%D0%B4%D0%B0._II_%E2%80%94_1289671_%28cropped%29.jpg",
+    "localPath": "/player-photos/nl-frenkie-de-jong.jpg",
+    "cachedAt": "2026-06-06T05:51:37.486Z"
+  },
+  "no-erling-haaland": {
+    "name": "Erling Haaland",
+    "pageTitle": "Erling Haaland",
+    "pageUrl": "https://en.wikipedia.org/wiki/Erling_Haaland",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Erling_Haaland_June_2025.jpg/960px-Erling_Haaland_June_2025.jpg",
+    "localPath": "/player-photos/no-erling-haaland.jpg",
+    "cachedAt": "2026-06-06T05:52:25.954Z"
+  },
+  "pt-diogo-dalot": {
+    "name": "Diogo Dalot",
+    "pageTitle": "Diogo Dalot",
+    "pageUrl": "https://en.wikipedia.org/wiki/Diogo_Dalot",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Diogo_Dalot_USMNT_v_Portugal_Mar_31_2026-12.jpg/960px-Diogo_Dalot_USMNT_v_Portugal_Mar_31_2026-12.jpg",
+    "localPath": "/player-photos/pt-diogo-dalot.jpg",
+    "cachedAt": "2026-06-06T05:52:51.320Z"
+  },
+  "pt-francisco-conceicao": {
+    "name": "Francisco Conceicao",
+    "pageTitle": "Francisco Conceição",
+    "pageUrl": "https://en.wikipedia.org/wiki/Francisco_Concei%C3%A7%C3%A3o",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Francisco_Concei%C3%A7%C3%A3o_USMNT_v_Portugal_Mar_31_2026-62_%28cropped%29.jpg/960px-Francisco_Concei%C3%A7%C3%A3o_USMNT_v_Portugal_Mar_31_2026-62_%28cropped%29.jpg",
+    "localPath": "/player-photos/pt-francisco-conceicao.jpg",
+    "cachedAt": "2026-06-06T05:52:53.021Z"
+  },
+  "pt-joao-neves": {
+    "name": "Joao Neves",
+    "pageTitle": "João Neves",
+    "pageUrl": "https://en.wikipedia.org/wiki/Jo%C3%A3o_Neves",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Jo%C3%A3o_Neves_USMNT_v_Portugal_Mar_31_2026-18_%28cropped%29.jpg/960px-Jo%C3%A3o_Neves_USMNT_v_Portugal_Mar_31_2026-18_%28cropped%29.jpg",
+    "localPath": "/player-photos/pt-joao-neves.jpg",
+    "cachedAt": "2026-06-06T05:52:54.629Z"
+  },
+  "pt-ruben-dias": {
+    "name": "Ruben Dias",
+    "pageTitle": "Rúben Dias",
+    "pageUrl": "https://en.wikipedia.org/wiki/R%C3%BAben_Dias",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Portugal_national_football_team_0866_%28R%C3%BAben_Dias%29.jpg",
+    "localPath": "/player-photos/pt-ruben-dias.jpg",
+    "cachedAt": "2026-06-06T05:52:56.190Z"
+  },
+  "ar-alexis-mac-allister": {
+    "name": "Alexis Mac Allister",
+    "pageTitle": "Alexis Mac Allister",
+    "pageUrl": "https://en.wikipedia.org/wiki/Alexis_Mac_Allister",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/4/49/Alexis_Mac_Allister_WC_2022.jpg",
+    "localPath": "/player-photos/ar-alexis-mac-allister.jpg",
+    "cachedAt": "2026-06-06T05:53:21.387Z"
+  },
+  "ar-anibal-moreno": {
+    "name": "Aníbal Moreno",
+    "pageTitle": "Aníbal Moreno",
+    "pageUrl": "https://en.wikipedia.org/wiki/An%C3%ADbal_Moreno",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Anibal-Moreno-Palmeiras-Liverpool-abr24-2.jpg/960px-Anibal-Moreno-Palmeiras-Liverpool-abr24-2.jpg",
+    "localPath": "/player-photos/ar-anibal-moreno.jpg",
+    "cachedAt": "2026-06-06T05:53:23.100Z"
+  },
+  "ar-emiliano-martinez": {
+    "name": "Emiliano Martínez",
+    "pageTitle": "Emiliano Martínez",
+    "pageUrl": "https://en.wikipedia.org/wiki/Emiliano_Mart%C3%ADnez",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/4/41/St._Louis_City_vs_Aston_Villa_%28Jul_2025%29_14_%28Emiliano_Mart%C3%ADnez%29.jpg",
+    "localPath": "/player-photos/ar-emiliano-martinez.jpg",
+    "cachedAt": "2026-06-06T05:53:24.707Z"
+  },
+  "ar-enzo-fernandez": {
+    "name": "Enzo Fernández",
+    "pageTitle": "Enzo Fernández",
+    "pageUrl": "https://en.wikipedia.org/wiki/Enzo_Fern%C3%A1ndez",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Enzo_Fern%C3%A1ndez_2025_FIFA_Club_World_Cup_Final.jpg",
+    "localPath": "/player-photos/ar-enzo-fernandez.jpg",
+    "cachedAt": "2026-06-06T05:53:26.400Z"
+  }
+}

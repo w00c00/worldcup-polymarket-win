@@ -1,10 +1,10 @@
 import { PLAYERS, playerPhoto } from "@/lib/players";
 import { teamByCode, flag } from "@/lib/worldcup";
 import { modelChampionFor } from "@/lib/model";
+import { requireUser } from "@/lib/auth";
 import Link from "next/link";
 
-export const dynamic = "force-static";
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 const ATTR_LABELS = ["速", "射", "传", "盘", "防", "体"];
 const STAR_PRIOR: Record<string, number> = {
@@ -29,7 +29,8 @@ const STAR_PRIOR: Record<string, number> = {
 
 const MAX_DISPLAY = 60; // Keep page render fast within Workers CPU limits
 
-export default function PlayersPage() {
+export default async function PlayersPage() {
+  await requireUser();
   const allRanked = [...PLAYERS]
     .map((player) => ({ ...player, watchScore: playerWatchScore(player) }))
     .sort((a, b) => b.watchScore - a.watchScore || b.rating - a.rating);

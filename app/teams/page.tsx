@@ -1,12 +1,13 @@
 import { GROUPS, teamsInGroup, flag } from "@/lib/worldcup";
 import { modelChampionFor } from "@/lib/model";
 import { formMarks, getTeamInsight } from "@/lib/team-insights";
+import { requireUser } from "@/lib/auth";
 import Link from "next/link";
 
-export const dynamic = "force-static";
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
-export default function TeamsPage() {
+export default async function TeamsPage() {
+  await requireUser();
   const groups = GROUPS.map((group) => {
     const teams = teamsInGroup(group);
     const avgElo = Math.round(teams.reduce((sum, team) => sum + team.elo, 0) / teams.length);

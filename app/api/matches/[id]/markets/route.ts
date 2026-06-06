@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getCurrentUser } from "@/lib/auth";
 import { getMatchMarkets } from "@/lib/polymarket";
 import { matchById } from "@/lib/worldcup";
 
@@ -6,6 +7,8 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
+  const user = await getCurrentUser();
+  if (!user) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const { id } = await params;
   const match = matchById(id);
   if (!match) return NextResponse.json({ error: "match not found" }, { status: 404 });

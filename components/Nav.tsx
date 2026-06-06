@@ -15,7 +15,7 @@ export function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-emerald-400/15 bg-[#05080f]/88 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-        <Link href="/" className="flex items-center gap-2">
+        <a href="/" className="flex items-center gap-2">
           <span className="grid h-9 w-9 place-items-center rounded-xl border border-emerald-400/30 bg-emerald-400/10 text-xs font-black text-emerald-300 shadow-glow-electric">
             AI
           </span>
@@ -25,20 +25,24 @@ export function Nav() {
           <span className="hidden rounded border border-electric/30 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-electric sm:inline">
             WC 2026
           </span>
-        </Link>
+        </a>
         <nav className="flex items-center gap-1">
           {links.map((l) => {
             const active = l.href === "/" ? path === "/" : path.startsWith(l.href);
+            const className = `rounded-lg px-3 py-1.5 text-sm font-semibold transition-colors ${
+              active
+                ? "border border-emerald-400/20 bg-emerald-400/10 text-emerald-300 shadow-glow-electric"
+                : "text-slate-300 hover:bg-white/5 hover:text-white"
+            }`;
+            if (l.href === "/") {
+              return (
+                <a key={l.href} href="/" className={className}>
+                  {l.label}
+                </a>
+              );
+            }
             return (
-              <Link
-                key={l.href}
-                href={l.href}
-                className={`rounded-lg px-3 py-1.5 text-sm font-semibold transition-colors ${
-                  active
-                    ? "border border-emerald-400/20 bg-emerald-400/10 text-emerald-300 shadow-glow-electric"
-                    : "text-slate-300 hover:bg-white/5 hover:text-white"
-                }`}
-              >
+              <Link key={l.href} href={l.href} className={className}>
                 {l.label}
               </Link>
             );

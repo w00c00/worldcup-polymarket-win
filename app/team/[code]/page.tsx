@@ -1,17 +1,16 @@
-import { TEAMS, teamByCode, teamsInGroup, flag, MATCHES } from "@/lib/worldcup";
+import { teamByCode, teamsInGroup, flag, MATCHES } from "@/lib/worldcup";
 
-export const revalidate = 3600;
-export function generateStaticParams() {
-  return TEAMS.map((t) => ({ code: t.code }));
-}
+export const dynamic = "force-dynamic";
 import { modelChampionFor } from "@/lib/model";
 import { playersByTeam, playerPhoto } from "@/lib/players";
 import { SectionTitle, Flag, Stat } from "@/components/ui";
 import { formMarks, getTeamInsight } from "@/lib/team-insights";
+import { requireUser } from "@/lib/auth";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export default async function TeamPage({ params }: { params: Promise<{ code: string }> }) {
+  await requireUser();
   const { code } = await params;
   const t = teamByCode(code);
   if (!t) return notFound();
