@@ -2,6 +2,7 @@ import Link from "next/link";
 import { logoutAction, sendMyTomorrowBriefAction } from "@/lib/actions";
 import { requireUser } from "@/lib/auth";
 import { ensureNotificationSettings, getDb, type PushLog } from "@/lib/db";
+import { formatBeijingDateTime } from "@/lib/time";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -95,7 +96,7 @@ export default async function DashboardPage({
           <div className="divide-y divide-white/5">
             {logs.map((log) => (
               <div key={log.id} className="grid gap-2 py-3 text-sm md:grid-cols-[9rem_7rem_1fr]">
-                <span className="mono text-xs text-slate-500">{log.created_at}</span>
+                <span className="mono text-xs text-slate-500">{formatBeijingDateTime(log.created_at)}</span>
                 <span className={log.status === "sent" ? "text-emerald-300" : log.status === "failed" ? "text-orange-300" : "text-slate-400"}>
                   {log.channel} · {log.status}
                 </span>

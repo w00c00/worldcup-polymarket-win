@@ -25,6 +25,15 @@ function authErrorCode(error: unknown): string {
   return "unknown";
 }
 
+function aiTestErrorCode(error: unknown): string {
+  const message = error instanceof Error ? error.message : String(error);
+  if (/HTTP\s+(401|403)|unauthorized|forbidden/i.test(message)) return "auth";
+  if (/API Key|尚未配置|未配置/i.test(message)) return "missing_key";
+  if (/HTTP\s+429|rate limit/i.test(message)) return "rate_limit";
+  if (/abort|timeout|timed out/i.test(message)) return "timeout";
+  return "test_failed";
+}
+
 export async function registerAction(formData: FormData) {
   const email = text(formData, "email");
   const password = text(formData, "password");
@@ -178,11 +187,20 @@ export async function reviewRegistrationAction(formData: FormData) {
 
 export async function testAiProviderAction() {
   await requireAdmin();
-  await chatWithActiveProvider([
-    { role: "system", content: "你是一个只输出一句话的足球分析助手。" },
-    { role: "user", content: "用中文回复：AI 接口配置测试成功。" },
-  ]);
-  redirect("/admin/ai?ok=test");
+  let target = "/admin/ai?ok=test";
+  try {
+    await chatWithActiveProvider(
+      [
+        { role: "system", content: "你是一个只输出一句话的足球分析助手。" },
+        { role: "user", content: "用中文回复：AI 接口配置测试成功。" },
+      ],
+      { maxTokens: 80 },
+    );
+  } catch (error) {
+    console.error("AI provider test failed:", error instanceof Error ? error.message : String(error));
+    target = `/admin/ai?error=${aiTestErrorCode(error)}`;
+  }
+  redirect(target);
 }
 
 export async function previewTomorrowBriefAction() {

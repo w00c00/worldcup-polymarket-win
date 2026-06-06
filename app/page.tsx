@@ -8,7 +8,7 @@ import { ScannerConsole } from "@/components/ScannerConsole";
 import { formatSignedPct, recommendYesNo } from "@/lib/trade-recommendation";
 import Link from "next/link";
 
-export const revalidate = 120;
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const markets = await getWorldCupMarkets();

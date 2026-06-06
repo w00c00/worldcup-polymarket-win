@@ -7,10 +7,18 @@ import { maskSecret } from "@/lib/secrets";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const errorText: Record<string, string> = {
+  auth: "AI 接口测试失败：API Key 无效或当前账号没有权限。",
+  missing_key: "AI 接口测试失败：当前默认 Provider 没有配置 API Key。",
+  rate_limit: "AI 接口测试失败：请求过于频繁，请稍后再试。",
+  timeout: "AI 接口测试失败：上游接口超时。",
+  test_failed: "AI 接口测试失败，请检查默认 Provider 的 Base URL、模型和 API Key。",
+};
+
 export default async function AdminAiPage({
   searchParams,
 }: {
-  searchParams?: Promise<{ ok?: string }>;
+  searchParams?: Promise<{ ok?: string; error?: string }>;
 }) {
   await requireAdmin();
   const providers = listAiProviders();
@@ -39,6 +47,11 @@ export default async function AdminAiPage({
         {params?.ok && (
           <div className="mt-4 rounded-lg border border-emerald-400/25 bg-emerald-400/10 px-3 py-2 text-sm text-emerald-200">
             {params.ok === "test" ? "AI 接口测试已通过。" : "AI 配置已更新。"}
+          </div>
+        )}
+        {params?.error && (
+          <div className="mt-4 rounded-lg border border-orange-400/25 bg-orange-400/10 px-3 py-2 text-sm text-orange-200">
+            {errorText[params.error] ?? "AI 接口测试失败，请检查默认 Provider 配置。"}
           </div>
         )}
         <form action={testAiProviderAction} className="mt-4">

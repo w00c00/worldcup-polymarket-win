@@ -1,9 +1,6 @@
 import { MATCHES, TEAMS, matchById, teamByCode, headToHead, flag } from "@/lib/worldcup";
 
-export const revalidate = 300; // 5 min — matches have live odds
-export function generateStaticParams() {
-  return MATCHES.map((m) => ({ id: m.id }));
-}
+export const dynamic = "force-dynamic";
 import { groupStageAnalysis, matchProbabilities, scoreMatrix } from "@/lib/model";
 import { playersByTeam, playerPhoto } from "@/lib/players";
 import { ProbBar, Flag, SectionTitle, Stat } from "@/components/ui";

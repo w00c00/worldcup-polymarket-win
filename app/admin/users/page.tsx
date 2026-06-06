@@ -2,6 +2,7 @@ import Link from "next/link";
 import { reviewRegistrationAction } from "@/lib/actions";
 import { requireAdmin } from "@/lib/auth";
 import { getDb, type Role, type UserStatus } from "@/lib/db";
+import { formatBeijingDateTime } from "@/lib/time";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -97,7 +98,7 @@ export default async function AdminUsersPage({
                   )}
                 </div>
                 <p className="mt-1 text-xs text-slate-500">
-                  #{user.id} · {user.email} · 注册于 {user.created_at}
+                  #{user.id} · {user.email} · 注册于 {formatBeijingDateTime(user.created_at)}
                 </p>
               </div>
               <span className="text-sm font-bold text-slate-300">{user.role === "admin" ? "管理员" : "普通用户"}</span>
